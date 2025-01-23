@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webpage with Sidebar, Navbar, and Google Maps</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    #map {
+      width: calc(100% - 80px); /* Exclude sidebar width */
+      height: calc(100vh - 60px); /* Exclude navbar height */
+      position: absolute;
+      top: 60px;
+      left: 80px; /* Align with sidebar width */
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="menu-item">
+      <i class="fas fa-chart-line"></i>
+      <span>내 투자</span>
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-heart"></i>
+      <span>관심</span>
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-check-circle"></i>
+      <span>최근 본</span>
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-fire"></i>
+      <span>실시간</span>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-left">
+      <div class="logo">토스증권</div>
+      <nav>
+        <a href="#">홈</a>
+        <a href="#">뉴스</a>
+        <a href="#">주식 골라보기</a>
+        <a href="#">내 계좌</a>
+      </nav>
+    </div>
+    <div class="navbar-right">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="/ 를 눌러 검색하세요">
+      </div>
+      <button class="btn-login">로그인</button>
+    </div>
+  </div>
+
+  <!-- Map Container -->
+  <div id="map"></div>
+
+  <script>
+    function initMap() {
+      const map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 37.532600, lng: 127.024612 }, // Initial position (Seoul)
+        zoom: 10, // Initial zoom level
+      });
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=your_google_maps_api_key&AIzaSyBfIo_r6F31jWYr0FF1W_iLkgwYlDPPxzw" async defer></script>
+</body>
+</html>

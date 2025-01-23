@@ -1,0 +1,160 @@
+:root {
+    --sidebar-width: 280px;
+    --primary-color: #2c3e50;
+    --hover-color: #3498db;
+    --text-color: #ffffff;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    position: fixed;
+    left: 0;
+    top: 0;
+    color: var(--text-color);
+    padding-top: 80px; /* 네비게이션 바 아래에 위치하도록 */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.sidebar-section {
+    padding: 20px;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #ecf0f1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-item {
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.menu-item:hover {
+    background-color: rgba(52, 152, 219, 0.2);
+    transform: translateX(5px);
+}
+
+.menu-item.active {
+    background-color: var(--hover-color);
+}
+
+.menu-item i {
+    width: 20px;
+    text-align: center;
+}
+
+/* 구분선 */
+.divider {
+    height: 1px;
+    background-color: rgba(255,255,255,0.1);
+    margin: 15px 0;
+}
+
+/* 접기/펼치기 버튼 */
+.toggle-btn {
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    background: var(--primary-color);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+/* 사이드바 접힘 상태 */
+.sidebar.collapsed {
+    transform: translateX(calc(-1 * var(--sidebar-width) + 50px));
+}
+
+.sidebar.collapsed .menu-item span {
+    display: none;
+}
+.map-container {
+    width: 80%;
+    max-width: 800px;
+    position: absolute;
+    top: 55%;
+    left: 35%; /* 중앙(50%)에서 왼쪽으로 조정 */
+    transform: translate(-50%, -50%); /* 요소의 크기만큼 이동 보정 */
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden
+
+}.container {
+    position: absolute;
+    display : flex;
+    top : 22%;
+    height : 50px;
+    left : 15%;
+    
+
+
+
+
+
+
+
+}
+
+     
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+}
+  @media (max-width: 768px) {
+    .map-container {
+      width: 90%; /* 화면이 작아질수록 컨테이너 폭을 줄임 */
+      padding: 15px;
+    }
+    iframe {
+      height: 350px; /* iframe 높이를 조정 */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .map-container {
+      width: 100%; /* 작은 화면에서는 100%로 */
+      border-radius: 0; /* 둥근 모서리를 제거 */
+      padding: 10px;
+    }
+    iframe {
+      height: 300px; /* 더 작게 조정 */
+    }
+
+
+}

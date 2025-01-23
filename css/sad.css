@@ -1,0 +1,127 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    display: flex;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 80px;
+    background-color: #f7f8fa;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar .menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    color: #6b6b6b;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .sidebar .menu-item:hover {
+    color: #333;
+  }
+  
+  .sidebar .menu-item i {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  
+  .sidebar .menu-item span {
+    font-size: 12px;
+  }
+  
+  /* Navbar */
+  .navbar {
+    width: calc(100% - 80px);
+    background-color: #fff;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar .logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 20px;
+  }.fas fa-leaf {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 20px;
+
+  }
+
+
+  
+  .navbar nav a {
+    margin-right: 15px;
+    color: #6b6b6b;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar nav a:hover {
+    color: #333;
+  }
+  
+  .navbar .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar .search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-right: 20px;
+  }
+  
+  .navbar .search-bar i {
+    color: #999;
+  }
+  
+  .navbar .search-bar input {
+    border: none;
+    background: none;
+    outline: none;
+    margin-left: 10px;
+    font-size: 14px;
+  }
+  
+  .navbar .btn-login {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar .btn-login:hover {
+    background-color: #0056b3;
+  }
+  
