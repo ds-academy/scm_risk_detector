@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sidebar & Navbar</title>
+  <link rel="stylesheet" href="/Project/css/sad.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    #map {
+      width: calc(100% - 80px);
+      /* Exclude sidebar width */
+      height: calc(100vh - 60px);
+      /* Exclude navbar height */
+      position: absolute;
+      top: 60px;
+      left: 80px;
+      /* Align with sidebar width */
+    }
+  </style>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-left">
+      <div class="logo">
+        <i class="fas fa-leaf"></i> SPAndTech
+      </div>
+      <nav>
+        <a href="#">홈</a>
+        <a href="#">뉴스</a>
+        <a href="#">주식 골라보기</a>
+        <a href="#">내 계좌</a>
+      </nav>
+    </div>
+    <div class="navbar-right">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="/를 눌러 검색하세요">
+      </div>
+      <button class="btn-login">로그인</button>
+    </div>
+  </div>
+</head>
+<div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="menu-item">
+      <i class="fas fa-chart-line"></i>
+      <span>내 투자</span>
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-heart"></i>
+      <span>관심</span>
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-check-circle"></i>
+      <span>최근 본</span>
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-fire"></i>
+      <span>실시간</span>
+    </div>
+  </div>
+  <!-- Map Container -->
+
+  
+  <div id="map"></div>
+</div>
+<script>
+  function initMap() {
+    // Map options
+    const mapOptions = {
+      center: { lat: 37.532600, lng: 127.024612 }, // Seoul
+      zoom: 10,
+    };
+
+    // Create a map instance
+    const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    // Add a marker
+    const marker = new google.maps.Marker({
+      position: { lat: 37.532600, lng: 127.024612 },
+      map: map,
+      title: 'Hello, Seoul!',
+    });
+  }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfIo_r6F31jWYr0FF1W_iLkgwYlDPPxzw&callback=initMap" async
+  defer></script>
+
+
+
+</body>
+
+</html>
