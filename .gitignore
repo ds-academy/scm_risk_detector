@@ -241,3 +241,5 @@ TASKS.md
 /logs/*
 
 /raison/*
+.classpath
+.project
