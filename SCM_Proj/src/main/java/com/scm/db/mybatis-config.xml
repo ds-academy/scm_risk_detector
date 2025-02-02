@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-"https://mybatis.org/dtd/mybatis-3-config.dtd">
-<!--  사용하는 파일의 스키마 형태(설정 등) 지정하는 내용 -->
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-	 <environments default="development">
-	    <environment id="development">
-	      <transactionManager type="JDBC"/>
-	      <dataSource type="POOLED">
-	      <!-- ${driver} : 또 다른 파일로 부터 해당 내용을 가져와 연결하는 기법!  -->
-	        <property name="driver" value="com.mysql.cj.jdbc.Driver" /> <!-- 동적 드라이버 연결  -->
-	        <property name="url" value="jdbc:mysql://project-db-cgi.smhrd.com:3307/cgi_24K_bigdata26_p3_1"/>
-	        <property name="username" value="cgi_24K_bigdata26_p3_1"/>
-	        <property name="password" value="smhrd1"/>
-	      </dataSource>
-	    </environment>
-  </environments>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://project-db-cgi.smhrd.com:3307/cgi_24K_bigdata26_p3_1"/>
+                <property name="username" value="cgi_24K_bigdata26_p3_1"/>
+                <property name="password" value="smhrd1"/>
+            </dataSource>
+        </environment>
+    </environments>
 
-	<!-- sql문장이 정리되어있는 파일을 mapper로 연결하는 부분  -->
-	<!-- Mapper 파일 연결시 경로는 반드시 / 로 표현한다. -->
+    <!-- Mapper 파일 등록 -->
+    <mappers>
+        <mapper resource="com/scm/db/CustomerMapper.xml"/>
+    </mappers>
 
 </configuration>
