@@ -16,7 +16,7 @@ public class SqlSessionManager {
 		static SqlSessionFactory sqlSessionFactory;
 		
 		// 초기화 블럭 문법! -> main() 시작되자마자 같이 호출될 수 있는 {} 구조!
-		static {	
+		static {
 			try {
 				String resource = "com/scm/db/mybatis-config.xml";
 				InputStream inputStream = Resources.getResourceAsStream(resource);
