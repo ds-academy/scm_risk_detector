@@ -18,6 +18,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
   <mappers>
     <!-- Mapper 파일 경로 -->
-    <mapper resource="mybatis/mapper/UserMapper.xml"/>
+    <mapper resource="com/scm/db/CustomerMapper.xml"/>
   </mappers>
 </configuration>

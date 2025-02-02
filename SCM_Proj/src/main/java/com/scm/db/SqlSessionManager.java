@@ -14,9 +14,11 @@ public class SqlSessionManager {
             String resource = "com/scm/db/mybatis-config.xml"; // MyBatis 설정 파일 경로
             InputStream inputStream = Resources.getResourceAsStream(resource); // 설정 파일을 InputStream으로 읽어옴
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream); // SqlSessionFactory 객체 생성
+            System.out.println("MyBatis 설정 파일 로드 성공!");
         } catch (Exception e) {
-            e.printStackTrace(); // 예외 발생 시 스택 트레이스를 출력
-        }        
+            System.out.println("MyBatis 설정 파일 로드 실패!");
+        	e.printStackTrace(); // 예외 발생 시 스택 트레이스를 출력
+            }        
     }
 
     // 다른 클래스에서 해당하는 sqlSessionFactory를 호출할 수 있는 메소드 생성
