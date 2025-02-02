@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smhrd.db.MemberMapper">
+
+   
+   <!-- MemberMapper.xml 파일은 DB를 실행하기 위한 SQL 문장을 정리하는 파일!  -->
+   <!-- 사용자가 입력한 데이터를 sql문장에 연결하기 위하여 #{ } 기호를 사용하고,
+       실제 데이터는 MemberDTO의 필드명을 기준으로 연결  -->
+   <insert id="join" parameterType="com.smhrd.model.MemberDTO">
+      insert into WEB_MEMBER values(#{email}, #{pw}, #{tel}, #{address}) 
+   </insert>
+   
+   <select id="login" parameterType="com.smhrd.model.MemberDTO"
+   resultType="com.smhrd.model.MemberDTO">
+	SELECT EMAIL, TEL, ADDRESS FROM WEB_MEMBER
+	WHERE EMAIL=#{email} AND PW=#{pw}
+   </select>   
+   
+   <!-- 
+   	resultType 동작 원리
+   	 : 나만의 자료형을 resultType으로 명시해 놓았다면
+   	 1. 기본생성자를 호출해서 객체 생성(mtbatis가 알아서)
+   	 2. 조회한 테이블의 컬럼명과 일치하는 필드가 있는지 확인
+   	 3. 해당 필드의 setter 메소드를 호출해서 값을 채우는 구조
+   	  * setter 메소드가 없거나, 기본 생성자가 없는 경우 문제가 발생하기도 함
+   	  
+   	 알아두면 좋은 TIP!
+   	 : resultType에는 java에 기본으로 존재하는 자료형은 굳이 명시하지 않아도 된다!
+    -->
+   
+   <!-- 전체회원 조회하는 sql문 작성 -->
+   <select id="userList" resultType="com.smhrd.model.MemberDTO">
+	SELECT EMAIL, TEL, ADDRESS FROM WEB_MEMBER
+   </select>
+   
+   <!-- 회원정보 수정하는 sql문 작성 -->
+   <update id="update" parameterType="com.smhrd.model.MemberDTO">
+   	UPDATE WEB_MEMBER SET PW=#{pw}, TEL=#{tel}, ADDRESS=#{address} WHERE EMAIL=#{email}
+   </update>
+
+</mapper>
