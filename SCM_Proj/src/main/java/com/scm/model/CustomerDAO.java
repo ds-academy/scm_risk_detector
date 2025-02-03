@@ -31,19 +31,4 @@ public class CustomerDAO {
 			return false;
 		}
 	}
-	
-	// 로그아웃 (JSP에서 세션 무효화 처리)
-	
-	// 회원 탈퇴
-	public boolean deleteUser(String userId) {
-		try(SqlSession session = sessionFactory.openSession()){
-			int result = session.delete("com.scm.db.CustomerMapper.deleteUser", userId);
-			session.commit();
-			return result > 0;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
 }

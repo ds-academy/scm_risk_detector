@@ -31,12 +31,12 @@
 
             <form id="loginForm" class="auth-form" action="login" method="post">
                 <div class="form-group">
-                    <label for="email">이메일</label>
-                    <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required>
+                    <label>ID</label>
+                    <input type="text" id="USER_ID" name="USER_ID" placeholder="아이디을 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">비밀번호</label>
-                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+                    <label for="password">PW</label>
+                    <input type="password" id="PASSWORD" name="password" placeholder="비밀번호를 입력하세요" required>
                 </div>
                 <button type="submit" class="submit-btn">로그인</button>
                 
@@ -44,16 +44,29 @@
 
             <form id="signupForm" class="auth-form" action="signup" method="post" style="display: none;">
                 <div class="form-group">
-                    <label for="signup-name">이름</label>
+                    <label for="signup-ID">ID</label>
+                    <input type="text" id="signup-name" name="name" placeholder="아이디을 입력하세요" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-name">NAME</label>
                     <input type="text" id="signup-name" name="name" placeholder="이름을 입력하세요" required>
                 </div>
+                
                 <div class="form-group">
-                    <label for="signup-email">이메일</label>
-                    <input type="email" id="signup-email" name="email" placeholder="이메일을 입력하세요" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-password">비밀번호</label>
+                    <label for="signup-password">PASSWORD</label>
                     <input type="password" id="signup-password" name="password" placeholder="비밀번호를 입력하세요" required>
+                </div>
+                
+                
+                <div class="form-group">
+                    <label for="signup-mobile">MOBILE</label>
+                    <input type="email" id="signup-email" name="email" placeholder="핸드폰 번호을 입력하세요" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">EMAIL</label>
+                    <input type="email" id="signup-email" name="email" placeholder="이메일을 입력하세요" required>
                 </div>
                 <!-- <div class="form-group">
                     <label for="signup-password-confirm">비밀번호 확인</label>

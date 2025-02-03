@@ -13,10 +13,5 @@
 	VALUES (#{USER_ID}, #{USER_NAME}, #{PASSWORD}, #{MOBILE}, #{EMAIL})
 </insert>
 
-<!-- 회원 삭제  -->
-<delete id="deleteUser" parameterType="String">
-	DELETE FROM CUSTOMER WHERE USER_ID = #{USER_ID}
-</delete>
-
 
 </mapper>
