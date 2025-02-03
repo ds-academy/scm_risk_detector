@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDTO {
-	private String USER_ID;
-	private String USER_NAME;
-	private String PASSWORD;
-	private String MOBILE;
-	private String EMAIL;
+	private String USER_ID; // 고객 ID
+	private String USER_NAME; // 고객명
+	private String PASSWORD; // 패스워드
+	private String MOBILE; // 연락처
+	private String EMAIL; // 이메일
 }

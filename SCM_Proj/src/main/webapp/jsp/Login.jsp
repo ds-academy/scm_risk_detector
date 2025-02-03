@@ -77,10 +77,10 @@
                     <label for="signup-password">비밀번호</label>
                     <input type="password" id="signup-password" name="password" placeholder="비밀번호를 입력하세요" required>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="signup-password-confirm">비밀번호 확인</label>
                     <input type="password" id="signup-password-confirm" name="passwordConfirm" placeholder="비밀번호를 다시 입력하세요" required>
-                </div>
+                </div> -->
                 <button type="submit" class="submit-btn">회원가입</button>
                 <div class="auth-footer">
                     이미 계정이 있으신가요? <a href="#" onclick="switchTab('login')">로그인하기</a>
