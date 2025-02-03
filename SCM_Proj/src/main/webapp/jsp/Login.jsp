@@ -7,29 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPAndTech - 로그인/회원가입</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Login.css">
+    <link rel="stylesheet" href="../css/Login.css">
 </head>
 <body>
-    <%
-        // 세션에서 로그인 정보 확인
-        CustomerDTO user = (CustomerDTO) session.getAttribute("user");
-        if(user != null) {
-            response.sendRedirect("Mainpage2.jsp");
-            return;
-        }
-
-        // 로그인 에러 메시지 확인
-        String errorMsg = (String) session.getAttribute("loginError");
-        if(errorMsg != null) {
-            out.println("<div class='error-message'>" + errorMsg + "</div>");
-            session.removeAttribute("loginError");
-        }
-    %>
-
     <nav class="navbar">
-        <a href="Mainpage2.jsp" class="logo">
-            <i class="fas fa-leaf"></i>
-            SPAndTech
+        <a href="../jsp/Mainpage2.jsp" class="logo">
+            <i class="fas fa-leaf"></i> SPAndTech
         </a>
     </nav>
 
@@ -46,43 +29,55 @@
             </div>
 
             <%-- 로그인 폼 --%>
-            <form id="loginForm" class="auth-form" action="CustomerController" method="post">
+            <form id="loginForm" class="auth-form" action="${pageContext.request.contextPath}/auth" method="post">
                 <input type="hidden" name="action" value="login">
                 <div class="form-group">
-                    <label for="USER_ID">아이디</label>
-                    <input type="text" id="USER_ID" name="USER_ID" placeholder="아이디를 입력하세요" required>
+                    <label for="LOGIN_USER_ID">아이디</label>
+                    <input type="text" id="LOGIN_USER_ID" name="USER_ID" placeholder="아이디를 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="PASSWORD">비밀번호</label>
-                    <input type="password" id="PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
+                    <label for="LOGIN_PASSWORD">비밀번호</label>
+                    <input type="password" id="LOGIN_PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
+
+                <%-- 버튼 크기 변경 없음 --%>
                 <button type="submit" class="submit-btn">로그인</button>
+
+                <div class="auth-footer">
+                    비밀번호를 잊으셨나요? <a href="#">비밀번호 찾기</a>
+                </div>
             </form>
 
             <%-- 회원가입 폼 --%>
-            <form id="signupForm" class="auth-form" action="CustomerController" method="post" style="display: none;">
+            <form id="signupForm" class="auth-form" action="${pageContext.request.contextPath}/auth" method="post" style="display: none;">
                 <input type="hidden" name="action" value="register">
                 <div class="form-group">
-                    <label for="USER_ID">아이디</label>
-                    <input type="text" id="USER_ID" name="USER_ID" placeholder="아이디를 입력하세요" required>
+                    <label for="REGISTER_USER_ID">아이디</label>
+                    <input type="text" id="REGISTER_USER_ID" name="USER_ID" placeholder="아이디를 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="USER_NAME">이름</label>
-                    <input type="text" id="USER_NAME" name="USER_NAME" placeholder="이름을 입력하세요" required>
+                    <label for="REGISTER_USER_NAME">이름</label>
+                    <input type="text" id="REGISTER_USER_NAME" name="USER_NAME" placeholder="이름을 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="EMAIL">이메일</label>
-                    <input type="email" id="EMAIL" name="EMAIL" placeholder="이메일을 입력하세요" required>
+                    <label for="REGISTER_EMAIL">이메일</label>
+                    <input type="email" id="REGISTER_EMAIL" name="EMAIL" placeholder="이메일을 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="MOBILE">전화번호</label>
-                    <input type="tel" id="MOBILE" name="MOBILE" placeholder="전화번호를 입력하세요" required>
+                    <label for="REGISTER_MOBILE">전화번호</label>
+                    <input type="tel" id="REGISTER_MOBILE" name="MOBILE" placeholder="전화번호를 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="PASSWORD">비밀번호</label>
-                    <input type="password" id="PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
+                    <label for="REGISTER_PASSWORD">비밀번호</label>
+                    <input type="password" id="REGISTER_PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
+
+                <%-- 버튼 크기 변경 없음 --%>
                 <button type="submit" class="submit-btn">회원가입</button>
+
+                <div class="auth-footer">
+                    이미 계정이 있으신가요? <a href="#" onclick="switchTab('login')">로그인하기</a>
+                </div>
             </form>
         </div>
     </div>
@@ -105,6 +100,13 @@
                 tabs[1].classList.add('active');
             }
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            if (new URLSearchParams(window.location.search).get("success") === "registered") {
+                switchTab('login');
+            }
+        });
     </script>
+
 </body>
 </html>
