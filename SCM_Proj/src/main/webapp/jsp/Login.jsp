@@ -58,9 +58,9 @@
                     <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
                 </div>
                 <button type="submit" class="submit-btn">로그인</button>
-                <div class="auth-footer">
+               <!--  <div class="auth-footer">
                     비밀번호를 잊으셨나요? <a href="findPassword.jsp">비밀번호 찾기</a>
-                </div>
+                </div> -->
             </form>
 
             <%-- 회원가입 폼 --%>
