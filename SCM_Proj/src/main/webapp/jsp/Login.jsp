@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.scm.model.CustomerDTO" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -10,20 +10,17 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Login.css">
 </head>
 <body>
-    <%-- 로그인 상태 확인 --%>
-    <% 
+    <%
         // 세션에서 로그인 정보 확인
         CustomerDTO user = (CustomerDTO) session.getAttribute("user");
         if(user != null) {
-            // 이미 로그인된 경우 메인 페이지로 리다이렉트
             response.sendRedirect("Mainpage2.jsp");
             return;
         }
-        
+
         // 로그인 에러 메시지 확인
         String errorMsg = (String) session.getAttribute("loginError");
         if(errorMsg != null) {
-            // 에러 메시지 표시 후 세션에서 제거
             out.println("<div class='error-message'>" + errorMsg + "</div>");
             session.removeAttribute("loginError");
         }
@@ -49,7 +46,8 @@
             </div>
 
             <%-- 로그인 폼 --%>
-            <form id="loginForm" class="auth-form" action="LoginController" method="post">
+            <form id="loginForm" class="auth-form" action="CustomerController" method="post">
+                <input type="hidden" name="action" value="login">
                 <div class="form-group">
                     <label for="USER_ID">아이디</label>
                     <input type="text" id="USER_ID" name="USER_ID" placeholder="아이디를 입력하세요" required>
@@ -59,13 +57,11 @@
                     <input type="password" id="PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
                 <button type="submit" class="submit-btn">로그인</button>
-               <!--  <div class="auth-footer">
-                    비밀번호를 잊으셨나요? <a href="findPassword.jsp">비밀번호 찾기</a>
-                </div> -->
             </form>
 
             <%-- 회원가입 폼 --%>
-            <form id="signupForm" class="auth-form" action="JoinController" method="post" style="display: none;">
+            <form id="signupForm" class="auth-form" action="CustomerController" method="post" style="display: none;">
+                <input type="hidden" name="action" value="register">
                 <div class="form-group">
                     <label for="USER_ID">아이디</label>
                     <input type="text" id="USER_ID" name="USER_ID" placeholder="아이디를 입력하세요" required>
@@ -87,9 +83,6 @@
                     <input type="password" id="PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
                 <button type="submit" class="submit-btn">회원가입</button>
-                <div class="auth-footer">
-                    이미 계정이 있으신가요? <a href="#" onclick="switchTab('login')">로그인하기</a>
-                </div>
             </form>
         </div>
     </div>
@@ -99,7 +92,7 @@
             const loginForm = document.getElementById('loginForm');
             const signupForm = document.getElementById('signupForm');
             const tabs = document.querySelectorAll('.auth-tab');
-            
+
             if (tab === 'login') {
                 loginForm.style.display = 'block';
                 signupForm.style.display = 'none';
