@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.scm.model.CustomerDTO" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -101,9 +101,12 @@
             }
         }
 
+        // 회원가입 성공 시 arert 띄우기
         document.addEventListener("DOMContentLoaded", function () {
-            if (new URLSearchParams(window.location.search).get("success") === "registered") {
-                switchTab('login');
+        	const params = new URLSearchParams(window.location.search);
+            if (params.get("success") === "registered") {
+                alert("회원가입에 성공했습니다.")
+            	switchTab('login');
             }
         });
     </script>
