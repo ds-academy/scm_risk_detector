@@ -1,6 +1,7 @@
+<%@page import="org.apache.ibatis.cache.decorators.SerializedCache.CustomObjectInputStream"%>
 <%@ page import="com.scm.model.CustomerDTO" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="UTF-8">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,11 +14,13 @@
 <body>
     <%
         // 로그인 체크
-        CustomerDTO user = (CustomerDTO) session.getAttribute("user");
-        if(user == null) {
+        /* CustomerDTO user = (CustomerDTO) session.getAttribute("user"); */
+        /* if(user == null) {
             response.sendRedirect("Login.jsp");
             return;
-        }
+        } */
+        
+        CustomerDTO user = new CustomerDTO("ais","안인숙", "1234", "010-1111-2222", "ais@googoler.com");
     %>
 
     <nav class="navbar">

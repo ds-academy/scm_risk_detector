@@ -67,24 +67,24 @@
             <%-- 회원가입 폼 --%>
             <form id="signupForm" class="auth-form" action="JoinController" method="post" style="display: none;">
                 <div class="form-group">
-                    <label for="signup-USER_ID">아이디</label>
-                    <input type="text" id="signup-USER_ID" name="USER_ID" placeholder="아이디를 입력하세요" required>
+                    <label for="USER_ID">아이디</label>
+                    <input type="text" id="USER_ID" name="USER_ID" placeholder="아이디를 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="signup-USER_NAME">이름</label>
-                    <input type="text" id="signup-USER_NAME" name="USER_NAME" placeholder="이름을 입력하세요" required>
+                    <label for="USER_NAME">이름</label>
+                    <input type="text" id="USER_NAME" name="USER_NAME" placeholder="이름을 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="signup-EMAIL">이메일</label>
-                    <input type="email" id="signup-EMAIL" name="EMAIL" placeholder="이메일을 입력하세요" required>
+                    <label for="EMAIL">이메일</label>
+                    <input type="email" id="EMAIL" name="EMAIL" placeholder="이메일을 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="signup-MOBILE">전화번호</label>
-                    <input type="tel" id="signup-MOBILE" name="MOBILE" placeholder="전화번호를 입력하세요" required>
+                    <label for="MOBILE">전화번호</label>
+                    <input type="tel" id="MOBILE" name="MOBILE" placeholder="전화번호를 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="signup-PASSWORD">비밀번호</label>
-                    <input type="password" id="signup-PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
+                    <label for="PASSWORD">비밀번호</label>
+                    <input type="password" id="PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
                 <button type="submit" class="submit-btn">회원가입</button>
                 <div class="auth-footer">
