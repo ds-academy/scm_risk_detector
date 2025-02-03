@@ -18,7 +18,8 @@ public class CustomerController extends HttpServlet {
 
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-
+        response.setContentType("text/html; charset=UTF-8");
+        
         String action = request.getParameter("action");
 
         if ("login".equals(action)) {
@@ -61,7 +62,9 @@ public class CustomerController extends HttpServlet {
 
     // 회원가입 처리
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userId = request.getParameter("USER_ID");
+    	request.setCharacterEncoding("UTF-8");
+    	
+    	String userId = request.getParameter("USER_ID");
         String userName = request.getParameter("USER_NAME");
         String password = request.getParameter("PASSWORD");
         String mobile = request.getParameter("MOBILE");
