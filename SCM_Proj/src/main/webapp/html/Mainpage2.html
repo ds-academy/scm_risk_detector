@@ -6,7 +6,7 @@
     <title>SPAndTech</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="../css/Mainpage2.css">
+    <link rel="stylesheet" href="/css/Mainpage2.css">
 </head>
 <body>
     <nav class="navbar">
@@ -72,12 +72,27 @@
 
 
 
-        </section>
+            </section>
 
-        <section class="maps-section">
-            <h2 class="section-title">글로벌 마켓 현황</h2>
-            <div id="map"></div>
-        </section>
+            <section class="maps-section">
+                <h2 class="section-title">글로벌 마켓 현황</h2>
+                <div class="company-selector">
+                    <select id="companySelect" onchange="updateCompanyInfo()">
+                        <option value="">기업을 선택하세요</option>
+                        <option value="samsung">삼성전자</option>
+                        <option value="lg">LG전자</option>
+                        <option value="sk">SK하이닉스</option>
+                        <option value="hyundai">현대자동차</option>
+                        <option value="naver">공란</option>
+                        <option value="naver">네이버</option>
+                        <option value="naver">네이버</option>
+                        <option value="naver">네이버</option>
+
+                    </select>
+                </div>
+
+                <div id="map"></div>
+            </section>
     </main>
 
     <script>
@@ -189,19 +204,43 @@
                 ]
             });
 
-            // 주요 금융 시장 마커 추가
-            const markets = [
-                { position: { lat: 40.7128, lng: -74.0060 }, title: "뉴욕 증권거래소" },
-                { position: { lat: 51.5074, lng: -0.1278 }, title: "런던 증권거래소" },
-                { position: { lat: 35.6762, lng: 139.6503 }, title: "도쿄 증권거래소" },
-                { position: { lat: 37.5665, lng: 126.9780 }, title: "한국 증권거래소" }
+            // 주요 금융 시장 마커 추	가
+           // 🌍 글로벌 주요 도시 (노드)
+           const nodes = [
+                { lat: 40.7128, lng: -74.0060, label: "New York" },  // 뉴욕
+                { lat: 51.5074, lng: -0.1278, label: "London" },     // 런던
+                { lat: 35.6895, lng: 139.6917, label: "Tokyo" },     // 도쿄
+                { lat: 37.5665, lng: 126.9780, label: "Seoul" },     // 서울
+                { lat: -33.8688, lng: 151.2093, label: "Sydney" }    // 시드니
             ];
 
-            markets.forEach(market => {
+            // 노드(도시) 마커 추가
+            nodes.forEach(node => {
                 new google.maps.Marker({
-                    position: market.position,
+                    position: { lat: node.lat, lng: node.lng },
                     map: map,
-                    title: market.title
+                    label: { text: node.label, color: "black", fontSize: "12px" }
+                });
+            });
+
+            // 🛠️ 도시 간 연결 (엣지)
+            const edges = [
+                { from: nodes[0], to: nodes[1] }, // 뉴욕 ↔ 런던
+                { from: nodes[1], to: nodes[2] }, // 런던 ↔ 도쿄
+                { from: nodes[2], to: nodes[3] }, // 도쿄 ↔ 서울
+                { from: nodes[3], to: nodes[4] }, // 서울 ↔ 시드니
+                { from: nodes[4], to: nodes[0] }  // 시드니 ↔ 뉴욕 (순환)
+            ];
+
+            // 📌 폴리라인(Edge) 추가
+            edges.forEach(edge => {
+                new google.maps.Polyline({
+                    path: [edge.from, edge.to],
+                    geodesic: true,
+                    strokeColor: "#435ebe", // 주황색 엣지
+                    strokeOpacity: 1.0,
+                    strokeWeight: 3,
+                    map: map
                 });
             });
         }

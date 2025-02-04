@@ -22,8 +22,8 @@
 <body>
     <%
         // 세션에서 사용자 정보 가져오기 (로그인 확인)
-        String userName = (String) session.getAttribute("userName");
-        String userEmail = (String) session.getAttribute("userEmail");
+        String userName = (String) session.getAttribute("USER_NAME");
+        String userEmail = (String) session.getAttribute("EMAIL");
         
         // 로그인하지 않은 경우 로그인 페이지로 이동
         if(userName == null || userEmail == null) {
@@ -43,9 +43,9 @@
         </div>
         <div class="nav-links">
             <a href="Mainpage2.jsp">홈</a>
-            <a href="Mypage" class="active">마이페이지</a>
+            <a href="Mypage.jsp" class="active">마이페이지</a>
             <a href="#" onclick="alert('준비 중입니다.');">설정</a>
-            <a href="Secondpage.jsp">리스크</a>
+            <a href="SecondPage.jsp">리스크</a>
         </div>
         <div class="search-bar">
             <input type="text" placeholder="종목명, 종목코드 검색">
