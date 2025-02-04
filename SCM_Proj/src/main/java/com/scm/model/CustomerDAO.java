@@ -31,4 +31,16 @@ public class CustomerDAO {
 			return false;
 		}
 	}
+	
+	// 회원 정보 수정 (이름, 비밀번호, 전화번호, 이메일 업데이트)
+	 public boolean updateCustomer(CustomerDTO dto) {
+	        try(SqlSession session = sessionFactory.openSession()) {
+	            int result = session.update("com.scm.db.CustomerMapper.updateCustomer", dto);
+	            session.commit();
+	            return result > 0;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
 }
