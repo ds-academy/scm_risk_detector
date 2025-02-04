@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPAndTech - 프로필 수정</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/Mainpage.css">
-    <link rel="stylesheet" href="css/Mypage2.css">
+    <link rel="stylesheet" href="../css/Mainpage.css">
+    <link rel="stylesheet" href="../css/Mypage2.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -45,7 +45,7 @@
             </div>
 
             <!-- 프로필 수정 폼 -->
-            <form class="profile-form" id="profileForm" action="updateProfile.jsp" method="post" onsubmit="return validateAndSubmit()">
+            <form class="profile-form" id="profileForm" action="" method="post" onsubmit="return validateAndSubmit()">
                 <div class="form-image-section">
                     <div class="profile-image-wrapper">
                         <div class="profile-image" id="profileImageDisplay">
@@ -86,7 +86,7 @@
                     </div>
 
                     <!-- 비밀번호 입력 필드 -->
-                    <div class="form-group">
+                    <div class="form-group" action="">
                         <label for="password">비밀번호</label>
                         <input type="password" id="password" name="PASSWORD" class="form-input">
                     </div>

@@ -123,7 +123,7 @@
         $('#riskAlert').on('change', function() {
             if($(this).is(':checked')) {
                 alert('리스크 알림 설정이 완료되었습니다.');
-            }
+            } 
         });
 
         // 가격 변동 알림 설정 시 알림 표시
