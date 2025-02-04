@@ -40,8 +40,10 @@
                     <input type="password" id="LOGIN_PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
 
-                <%-- 버튼 크기 변경 없음 --%>
-                <button type="submit" class="submit-btn">로그인</button>
+                <%-- 버튼 크기 유지 (Login.html 스타일 적용) --%>
+                <button type="submit" class="submit-btn" style="width: 100%; height: 50px; font-size: 1.1rem; padding: 12px; display: flex; align-items: center; justify-content: center;">
+                    로그인
+                </button>
 
                 <div class="auth-footer">
                     비밀번호를 잊으셨나요? <a href="#">비밀번호 찾기</a>
@@ -72,8 +74,10 @@
                     <input type="password" id="REGISTER_PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
 
-                <%-- 버튼 크기 변경 없음 --%>
-                <button type="submit" class="submit-btn">회원가입</button>
+                <%-- 버튼 크기 유지 (Login.html 스타일 적용) --%>
+                <button type="submit" class="submit-btn" style="width: 100%; height: 50px; font-size: 1.1rem; padding: 12px; display: flex; align-items: center; justify-content: center;">
+                    회원가입
+                </button>
 
                 <div class="auth-footer">
                     이미 계정이 있으신가요? <a href="#" onclick="switchTab('login')">로그인하기</a>
@@ -88,25 +92,25 @@
             const signupForm = document.getElementById('signupForm');
             const tabs = document.querySelectorAll('.auth-tab');
 
+            tabs.forEach(t => t.classList.remove('active'));
+
             if (tab === 'login') {
                 loginForm.style.display = 'block';
                 signupForm.style.display = 'none';
                 tabs[0].classList.add('active');
-                tabs[1].classList.remove('active');
             } else {
                 loginForm.style.display = 'none';
                 signupForm.style.display = 'block';
-                tabs[0].classList.remove('active');
                 tabs[1].classList.add('active');
             }
         }
 
-        // 회원가입 성공 시 arert 띄우기
+        // 회원가입 성공 시 alert 띄우고 로그인 탭으로 이동
         document.addEventListener("DOMContentLoaded", function () {
-        	const params = new URLSearchParams(window.location.search);
+            const params = new URLSearchParams(window.location.search);
             if (params.get("success") === "registered") {
-                alert("회원가입에 성공했습니다.")
-            	switchTab('login');
+                alert("회원가입에 성공했습니다.");
+                switchTab('login');
             }
         });
     </script>
