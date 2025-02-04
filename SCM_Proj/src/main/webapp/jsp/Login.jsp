@@ -15,7 +15,7 @@
             <i class="fas fa-leaf"></i> SPAndTech
         </a>
     </nav>
-
+	
     <div class="auth-container">
         <div class="auth-box">
             <div class="auth-header">
