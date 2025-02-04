@@ -1,120 +1,186 @@
-<%@page import="com.scm.model.CustomerDTO"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.spandtech.model.Stock" %>
+<%@ page import="com.spandtech.dao.StockDAO" %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPAndTech - 프로필 수정</title>
+    <title>SPAndTech - 마이페이지</title>
+    
+    <!-- FontAwesome 아이콘 라이브러리 로드 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Mainpage.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Mypage2.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ProfileEdit.css">
+    
+    <!-- 외부 CSS 파일 로드 -->
+    <link rel="stylesheet" href="../css/Mypage.css">
+    
+    <!-- jQuery 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <%
-        // 로그인 체크
-        CustomerDTO user = (CustomerDTO) session.getAttribute("user");
-        if(user == null) {
-            response.sendRedirect("Login.jsp");
+        // 세션에서 사용자 정보 가져오기 (로그인 확인)
+        String userName = (String) session.getAttribute("userName");
+        String userEmail = (String) session.getAttribute("userEmail");
+        
+        // 로그인하지 않은 경우 로그인 페이지로 이동
+        if(userName == null || userEmail == null) {
+            response.sendRedirect("login.jsp");
             return;
         }
+        
+        // 데이터베이스에서 주식 목록 가져오기
+        StockDAO stockDAO = new StockDAO();
+        List<Stock> availableStocks = stockDAO.getAllStocks();
     %>
 
+    <!-- 네비게이션 바 -->
     <nav class="navbar">
         <div class="logo">
             <i class="fas fa-leaf"></i> SPAndTech
         </div>
         <div class="nav-links">
             <a href="Mainpage2.jsp">홈</a>
-            <a href="Mypage.jsp" class="active">마이페이지</a>
-            <a href="Settings.jsp">설정</a>
-            <a href="Risk.jsp">리스크</a>
+            <a href="Mypage" class="active">마이페이지</a>
+            <a href="#" onclick="alert('준비 중입니다.');">설정</a>
+            <a href="Secondpage.jsp">리스크</a>
         </div>
         <div class="search-bar">
             <input type="text" placeholder="종목명, 종목코드 검색">
         </div>
-        <form action="LogoutController" method="post" style="display: inline;">
-            <button type="submit" class="btn-login">로그아웃</button>
-        </form>
+        <button class="btn-login" onclick="logout()">로그아웃</button>
     </nav>
 
+    <!-- 메인 콘텐츠 -->
     <main class="main-content">
-        <section class="edit-profile-section">
-            <div class="section-header">
-                <h2 class="section-title">프로필 수정</h2>
-                <p class="section-description">프로필 정보를 수정하고 관리하세요.</p>
-            </div>
-
-            <form class="profile-form" action="UpdateProfileController" method="post">
-                <div class="form-fields">
-                    <div class="form-group">
-                        <label for="USER_ID">아이디</label>
-                        <input type="text" id="USER_ID" name="USER_ID" value="<%=user.getUSER_ID()%>" class="form-input" readonly>
-                        <p class="input-description">아이디는 변경할 수 없습니다.</p>
+        <!-- 프로필 섹션 -->
+        <section class="profile-section">
+            <div class="profile-header">
+                <div class="profile-info">
+                    <div class="profile-image">
+                        <i class="fas fa-user"></i>
                     </div>
-
-                    <div class="form-group">
-                        <label for="USER_NAME">이름</label>
-                        <input type="text" id="USER_NAME" name="USER_NAME" value="<%=user.getUSER_NAME()%>" class="form-input">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="EMAIL">이메일</label>
-                        <input type="email" id="EMAIL" name="EMAIL" value="<%=user.getEMAIL()%>" class="form-input">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="MOBILE">전화번호</label>
-                        <input type="tel" id="MOBILE" name="MOBILE" value="<%=user.getMOBILE()%>" class="form-input">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="PASSWORD">새 비밀번호</label>
-                        <input type="password" id="PASSWORD" name="PASSWORD" class="form-input">
-                        <p class="input-description">변경을 원하시는 경우에만 입력하세요.</p>
-                    </div>
-
-                    <div class="button-group">
-                        <button type="submit" class="btn-save">저장하기</button>
-                        <a href="Mypage.jsp" class="btn-cancel">취소</a>
+                    <div class="profile-details">
+                        <h2><%= userName %> 님</h2>
+                        <p><%= userEmail %></p>
                     </div>
                 </div>
-            </form>
+                <button class="btn-edit" onclick="location.href='mypage2.jsp'">프로필 수정</button>
+            </div>
+        </section>
+
+        <!-- 설정 섹션 -->
+        <section class="settings-section">
+            <h2 class="section-title">알림 설정</h2>
+            <div class="settings-grid">
+                <div class="setting-card">
+                    <div class="setting-header">
+                        <h3>리스크 알림</h3>
+                        <label class="switch">
+                            <input type="checkbox" id="riskAlert">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <p class="setting-description">고위험 종목에 대한 실시간 알림을 받습니다.</p>
+                </div>
+                <div class="setting-card">
+                    <div class="setting-header">
+                        <h3>가격 변동 알림</h3>
+                        <label class="switch">
+                            <input type="checkbox" id="priceAlert">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <p class="setting-description">관심 종목의 가격 변동 알림을 받습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 관심 종목 섹션 -->
+        <section class="watchlist-section">
+            <h2 class="section-title">관심 종목</h2>
+            <div class="watchlist-grid">
+                <div class="stock-selection">
+                    <!-- 주식 목록 선택 -->
+                    <select id="stockSelect" multiple>
+                        <% for(Stock stock : availableStocks) { %>
+                            <option value="<%= stock.getCode() %>"><%= stock.getName() %></option>
+                        <% } %>
+                    </select>
+                    <button onclick="addSelectedStocks()">추가</button>
+                </div>
+                
+                <!-- 선택된 주식들이 추가될 컨테이너 -->
+                <div id="selectedStocksContainer"></div>
+            </div>
         </section>
     </main>
 
     <script>
-        // 폼 제출 전 유효성 검사
-        document.querySelector('.profile-form').addEventListener('submit', function(e) {
-            const name = document.getElementById('USER_NAME').value;
-            const email = document.getElementById('EMAIL').value;
-            const mobile = document.getElementById('MOBILE').value;
-            
-            if (!name || !email || !mobile) {
-                e.preventDefault();
-                alert('모든 필수 항목을 입력해주세요.');
-                return;
-            }
-            
-            // 이메일 형식 검사
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                e.preventDefault();
-                alert('올바른 이메일 형식을 입력해주세요.');
-                return;
-            }
-            
-            // 전화번호 형식 검사
-            const mobileRegex = /^[0-9]{10,11}$/;
-            if (!mobileRegex.test(mobile.replace(/-/g, ''))) {
-                e.preventDefault();
-                alert('올바른 전화번호 형식을 입력해주세요.');
-                return;
+        // 리스크 알림 설정 시 알림 표시
+        $('#riskAlert').on('change', function() {
+            if($(this).is(':checked')) {
+                alert('리스크 알림 설정이 완료되었습니다.');
             }
         });
+
+        // 가격 변동 알림 설정 시 알림 표시
+        $('#priceAlert').on('change', function() {
+            if($(this).is(':checked')) {
+                alert('가격 변동 알림이 완료되었습니다.');
+            }
+        });
+
+        // 관심 주식 추가 기능
+        function addSelectedStocks() {
+            const selectedOptions = $('#stockSelect').val(); // 선택한 주식 코드 배열
+            const selectedStocksContainer = $('#selectedStocksContainer');
+            
+            selectedStocksContainer.empty(); // 기존 선택 초기화
+
+            if(selectedOptions && selectedOptions.length > 0) {
+                selectedOptions.forEach(stockCode => {
+                    // 주식 정보를 가져오기 위한 AJAX 요청
+                    $.ajax({
+                        url: 'getStockData.jsp', // 주식 정보를 가져올 JSP 파일
+                        method: 'GET',
+                        data: { stockCode: stockCode },
+                        success: function(data) {
+                            // 동적으로 선택한 주식 정보 추가
+                            selectedStocksContainer.append(`
+                                <div class="stock-card">
+                                    <div class="stock-header">
+                                        <span class="stock-name">\${data.name}</span>
+                                        <button class="btn-remove" onclick="removeStock('\${stockCode}')">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="stock-price">\${data.price}</div>
+                                    <div class="stock-change \${data.change > 0 ? 'positive' : 'negative'}">\${data.changePercent}%</div>
+                                    <div class="risk-level \${data.riskLevel}">\${data.riskLevelText}</div>
+                                </div>
+                            `);
+                        }
+                    });
+                });
+            }
+        }
+
+        // 선택한 주식 제거 기능
+        function removeStock(stockCode) {
+            $(`#selectedStocksContainer .stock-card:contains('\${stockCode}')`).remove();
+        }
+
+        // 로그아웃 처리
+        function logout() {
+            <%
+                // 세션 무효화
+                session.invalidate();
+            %>
+            location.href = 'login.jsp';
+        }
     </script>
 </body>
 </html>
