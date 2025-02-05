@@ -19,13 +19,15 @@ public class CustomerController extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        
+
         String action = request.getParameter("action");
 
         if ("login".equals(action)) {
             login(request, response);
         } else if ("register".equals(action)) {
             register(request, response);
+        } else if ("update".equals(action)) {
+            updateCustomer(request, response); // ✅ 업데이트 추가
         } else if ("logout".equals(action)) {
             logout(request, response);
         }
@@ -51,8 +53,6 @@ public class CustomerController extends HttpServlet {
         if (loggedInUser != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", loggedInUser);
-
-            // ✅ 로그인 성공 시 `jsp/Mypage2.jsp`로 이동 (경로 수정)
             response.sendRedirect(request.getContextPath() + "/jsp/Mypage2.jsp");
         } else {
             request.setAttribute("loginError", "로그인 실패: 아이디 또는 비밀번호가 틀립니다.");
@@ -62,9 +62,9 @@ public class CustomerController extends HttpServlet {
 
     // 회원가입 처리
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	request.setCharacterEncoding("UTF-8");
-    	
-    	String userId = request.getParameter("USER_ID");
+        request.setCharacterEncoding("UTF-8");
+
+        String userId = request.getParameter("USER_ID");
         String userName = request.getParameter("USER_NAME");
         String password = request.getParameter("PASSWORD");
         String mobile = request.getParameter("MOBILE");
@@ -82,11 +82,45 @@ public class CustomerController extends HttpServlet {
         boolean isRegistered = customerDAO.register(dto);
 
         if (isRegistered) {
-            // ✅ 회원가입 후 로그인 탭으로 이동 (자동 로그인 방지)
             response.sendRedirect(request.getContextPath() + "/jsp/Login.jsp?success=registered");
         } else {
             request.setAttribute("registerError", "회원가입 실패: 아이디가 중복되었습니다.");
             request.getRequestDispatcher("/jsp/Login.jsp").forward(request, response);
+        }
+    }
+
+    // ✅ 회원 정보 업데이트 처리
+    private void updateCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        CustomerDTO loggedInUser = (CustomerDTO) session.getAttribute("user");
+
+        if (loggedInUser == null) {
+            response.sendRedirect(request.getContextPath() + "/jsp/Login.jsp");
+            return;
+        }
+
+        String userId = loggedInUser.getUSER_ID();  // 세션에서 현재 로그인한 사용자 ID 가져오기
+        String userName = request.getParameter("USER_NAME");
+        String password = request.getParameter("PASSWORD");
+        String mobile = request.getParameter("MOBILE");
+        String email = request.getParameter("EMAIL");
+
+        if (userName == null || userName.trim().isEmpty() || password == null || password.trim().isEmpty() ||
+            mobile == null || mobile.trim().isEmpty() || email == null || email.trim().isEmpty()) {
+            request.setAttribute("updateError", "모든 필드를 입력하세요.");
+            request.getRequestDispatcher("/jsp/Mypage2.jsp").forward(request, response);
+            return;
+        }
+
+        CustomerDTO dto = new CustomerDTO(userId, userName, password, mobile, email);
+        boolean isUpdated = customerDAO.updateCustomer(dto);
+
+        if (isUpdated) {
+            session.setAttribute("user", dto);  // 세션 업데이트
+            response.sendRedirect(request.getContextPath() + "/jsp/Mypage2.jsp?success=updated");
+        } else {
+            request.setAttribute("updateError", "업데이트 실패: 다시 시도해주세요.");
+            request.getRequestDispatcher("/jsp/Mypage2.jsp").forward(request, response);
         }
     }
 

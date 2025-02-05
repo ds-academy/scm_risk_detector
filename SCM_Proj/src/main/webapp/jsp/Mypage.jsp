@@ -16,6 +16,8 @@
     <!-- 외부 CSS 파일 로드 -->
     <link rel="stylesheet" href="../css/Mypage.css">
     
+     <link rel="stylesheet" href="../css/Mainpage.css">
+    
     <!-- jQuery 라이브러리 로드 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>

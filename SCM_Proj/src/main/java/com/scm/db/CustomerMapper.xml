@@ -13,5 +13,16 @@
 	VALUES (#{USER_ID}, #{USER_NAME}, #{PASSWORD}, #{MOBILE}, #{EMAIL})
 </insert>
 
+<!-- 업데이트  -->
+<!-- 회원 정보 수정 -->
+    <update id="updateCustomer" parameterType="com.scm.model.CustomerDTO">
+        UPDATE CUSTOMER
+        SET 
+            USER_NAME = #{USER_NAME},
+            PASSWORD = #{PASSWORD},
+            MOBILE = #{MOBILE},
+            EMAIL = #{EMAIL}
+        WHERE USER_ID = #{USER_ID}
+    </update>
 
 </mapper>
