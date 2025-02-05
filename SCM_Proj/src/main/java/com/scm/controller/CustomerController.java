@@ -27,7 +27,7 @@ public class CustomerController extends HttpServlet {
         } else if ("register".equals(action)) {
             register(request, response);
         } else if ("update".equals(action)) {
-            updateCustomer(request, response); // ✅ 업데이트 추가
+            updateCustomer(request, response);
         } else if ("logout".equals(action)) {
             logout(request, response);
         }
@@ -53,7 +53,7 @@ public class CustomerController extends HttpServlet {
         if (loggedInUser != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", loggedInUser);
-            response.sendRedirect(request.getContextPath() + "/jsp/Mypage2.jsp");
+            response.sendRedirect(request.getContextPath() + "/jsp/Mypage.jsp"); // ✅ 수정된 경로
         } else {
             request.setAttribute("loginError", "로그인 실패: 아이디 또는 비밀번호가 틀립니다.");
             request.getRequestDispatcher("/jsp/Login.jsp").forward(request, response);
@@ -99,7 +99,7 @@ public class CustomerController extends HttpServlet {
             return;
         }
 
-        String userId = loggedInUser.getUSER_ID();  // 세션에서 현재 로그인한 사용자 ID 가져오기
+        String userId = loggedInUser.getUSER_ID();
         String userName = request.getParameter("USER_NAME");
         String password = request.getParameter("PASSWORD");
         String mobile = request.getParameter("MOBILE");
@@ -108,7 +108,7 @@ public class CustomerController extends HttpServlet {
         if (userName == null || userName.trim().isEmpty() || password == null || password.trim().isEmpty() ||
             mobile == null || mobile.trim().isEmpty() || email == null || email.trim().isEmpty()) {
             request.setAttribute("updateError", "모든 필드를 입력하세요.");
-            request.getRequestDispatcher("/jsp/Mypage2.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/Mypage.jsp").forward(request, response);
             return;
         }
 
@@ -116,11 +116,11 @@ public class CustomerController extends HttpServlet {
         boolean isUpdated = customerDAO.updateCustomer(dto);
 
         if (isUpdated) {
-            session.setAttribute("user", dto);  // 세션 업데이트
-            response.sendRedirect(request.getContextPath() + "/jsp/Mypage2.jsp?success=updated");
+            session.setAttribute("user", dto);
+            response.sendRedirect(request.getContextPath() + "/jsp/Mypage.jsp?success=updated"); // ✅ 수정된 경로
         } else {
             request.setAttribute("updateError", "업데이트 실패: 다시 시도해주세요.");
-            request.getRequestDispatcher("/jsp/Mypage2.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/Mypage.jsp").forward(request, response);
         }
     }
 

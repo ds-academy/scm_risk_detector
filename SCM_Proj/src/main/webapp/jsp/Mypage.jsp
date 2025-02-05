@@ -1,7 +1,37 @@
+<%@page import="org.apache.ibatis.session.SqlSessionFactory"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="com.scm.model.StockDTO" %>
 <%@ page import="com.scm.model.StockDAO" %>
+<%@ page import="org.apache.ibatis.session.SqlSessionFactory" %>
+<%@ page import="com.scm.db.SqlSessionManager" %> 
+<%@ page import="com.scm.model.CustomerDTO" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
+
+<%
+    // ✅ 세션 확인 (로그인 여부 체크)
+    HttpSession userSession = request.getSession(false); // 중복 선언 방지
+    if (userSession == null || userSession.getAttribute("user") == null) {
+        System.out.println("세션 오류: 로그인한 사용자 정보 없음");
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+
+    // ✅ 세션에서 사용자 정보 가져오기
+    CustomerDTO loggedInUser = (CustomerDTO) userSession.getAttribute("user");
+    String userName = loggedInUser.getUSER_NAME();
+    String userEmail = loggedInUser.getEMAIL();
+
+    // ✅ MyBatis 세션 팩토리 가져오기
+    SqlSessionFactory sqlSessionFactory = SqlSessionManager.getSqlSession();
+    if (sqlSessionFactory == null) {
+        throw new Exception("SqlSessionFactory 생성 실패: MyBatis 설정 문제 발생");
+    }
+
+    // ✅ StockDAO 객체 생성 (DB 연결 최소화)
+    StockDAO stockDAO = new StockDAO(sqlSessionFactory);
+    List<StockDTO> availableStocks = stockDAO.getStockByCompany("AAPL");  // 예시로 "AAPL" 주식 데이터 조회
+%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -10,32 +40,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPAndTech - 마이페이지</title>
     
-    <!-- FontAwesome 아이콘 라이브러리 로드 -->
+    <!-- 스타일 및 라이브러리 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- 외부 CSS 파일 로드 -->
     <link rel="stylesheet" href="../css/Mypage.css">
     <link rel="stylesheet" href="../css/Mainpage.css">
-    
-    <!-- jQuery 라이브러리 로드 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <%
-        // 세션에서 사용자 정보 가져오기 (로그인 확인)
-        String userName = (String) session.getAttribute("USER_NAME");
-        String userEmail = (String) session.getAttribute("EMAIL");
-        
-        // 로그인하지 않은 경우 로그인 페이지로 이동
-        if (userName == null || userEmail == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        // 데이터베이스에서 주식 목록 가져오기
-        StockDAO stockDAO = new StockDAO();
-        List<StockDTO> availableStocks = stockDAO.getStockByCompany("AAPL"); // 예시로 특정 회사(AAPL) 주식 가져오기
-    %>
 
     <!-- 네비게이션 바 -->
     <nav class="navbar">
@@ -68,34 +79,7 @@
                         <p><%= userEmail %></p>
                     </div>
                 </div>
-                <button class="btn-edit" onclick="location.href='mypage2.jsp'">프로필 수정</button>
-            </div>
-        </section>
-
-        <!-- 설정 섹션 -->
-        <section class="settings-section">
-            <h2 class="section-title">알림 설정</h2>
-            <div class="settings-grid">
-                <div class="setting-card">
-                    <div class="setting-header">
-                        <h3>리스크 알림</h3>
-                        <label class="switch">
-                            <input type="checkbox" id="riskAlert">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                    <p class="setting-description">고위험 종목에 대한 실시간 알림을 받습니다.</p>
-                </div>
-                <div class="setting-card">
-                    <div class="setting-header">
-                        <h3>가격 변동 알림</h3>
-                        <label class="switch">
-                            <input type="checkbox" id="priceAlert">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                    <p class="setting-description">관심 종목의 가격 변동 알림을 받습니다.</p>
-                </div>
+                <button class="btn-edit" onclick="location.href='MyPage2.jsp'">프로필 수정</button>
             </div>
         </section>
 
@@ -104,7 +88,6 @@
             <h2 class="section-title">관심 종목</h2>
             <div class="watchlist-grid">
                 <div class="stock-selection">
-                    <!-- 주식 목록 선택 -->
                     <select id="stockSelect" multiple>
                         <% for (StockDTO stock : availableStocks) { %>
                             <option value="<%= stock.getCOMPANY_CODE() %>"><%= stock.getCOMPANY_CODE() %></option>
@@ -112,44 +95,29 @@
                     </select>
                     <button onclick="addSelectedStocks()">추가</button>
                 </div>
-                
-                <!-- 선택된 주식들이 추가될 컨테이너 -->
                 <div id="selectedStocksContainer"></div>
             </div>
         </section>
     </main>
 
     <script>
-        // 리스크 알림 설정 시 알림 표시
-        $('#riskAlert').on('change', function() {
-            if($(this).is(':checked')) {
-                alert('리스크 알림 설정이 완료되었습니다.');
-            } 
-        });
+        function logout() {
+            window.location.href = '<%= request.getContextPath() %>/auth?action=logout';
+        }
 
-        // 가격 변동 알림 설정 시 알림 표시
-        $('#priceAlert').on('change', function() {
-            if($(this).is(':checked')) {
-                alert('가격 변동 알림이 완료되었습니다.');
-            }
-        });
-
-        // 관심 주식 추가 기능
         function addSelectedStocks() {
-            const selectedOptions = $('#stockSelect').val(); // 선택한 주식 코드 배열
+            const selectedOptions = $('#stockSelect').val();
             const selectedStocksContainer = $('#selectedStocksContainer');
-            
-            selectedStocksContainer.empty(); // 기존 선택 초기화
+
+            selectedStocksContainer.empty();
 
             if (selectedOptions && selectedOptions.length > 0) {
                 selectedOptions.forEach(stockCode => {
-                    // 주식 정보를 가져오기 위한 AJAX 요청
                     $.ajax({
-                        url: 'getStockData.jsp', // 주식 정보를 가져올 JSP 파일
+                        url: 'getStockData.jsp',
                         method: 'GET',
                         data: { stockCode: stockCode },
                         success: function(data) {
-                            // 동적으로 선택한 주식 정보 추가
                             selectedStocksContainer.append(`
                                 <div class="stock-card">
                                     <div class="stock-header">
@@ -169,19 +137,10 @@
             }
         }
 
-        // 선택한 주식 제거 기능
         function removeStock(stockCode) {
             $(`#selectedStocksContainer .stock-card:contains('\${stockCode}')`).remove();
         }
-
-        // 로그아웃 처리
-        function logout() {
-            <%
-                // 세션 무효화
-                session.invalidate();
-            %>
-            location.href = 'login.jsp';
-        }
     </script>
+
 </body>
 </html>

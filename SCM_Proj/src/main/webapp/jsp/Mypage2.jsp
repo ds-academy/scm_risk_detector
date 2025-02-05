@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/Mypage2.css">
 </head>
 <body>
-    <%
+    <%-- <%
         HttpSession userSession = request.getSession(false);
         CustomerDTO user = (CustomerDTO) userSession.getAttribute("user");
 
@@ -27,14 +27,14 @@
         String userEmail = user.getEMAIL();
         String userPhone = user.getMOBILE();
     %>
-
+ --%>
     <nav class="navbar">
         <div class="logo">
             <i class="fas fa-leaf"></i> SPAndTech
         </div>
         <div class="nav-links">
-            <a href="Mainpage2.jsp">홈</a>
-            <a href="Mypage.jsp" class="active">마이페이지</a>
+            <a href="Mypage.jsp">홈</a>
+            <a href="Mypage2.jsp" class="active">마이페이지</a>
             <a href="#">설정</a>
             <a href="Secondpage.jsp">리스크</a>
         </div>

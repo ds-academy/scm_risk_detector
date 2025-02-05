@@ -20,3 +20,4 @@ public class StockDTO {
     private BigDecimal CLOSE; // 종가
     private BigInteger VOLUME; // 거래량
 }
+
