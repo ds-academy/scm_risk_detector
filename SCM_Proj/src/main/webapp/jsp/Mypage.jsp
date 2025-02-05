@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
-<%@ page import="com.spandtech.model.Stock" %>
-<%@ page import="com.spandtech.dao.StockDAO" %>
+<%@ page import="com.scm.model.StockDTO" %>
+<%@ page import="com.scm.model.StockDAO" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -15,8 +15,7 @@
     
     <!-- 외부 CSS 파일 로드 -->
     <link rel="stylesheet" href="../css/Mypage.css">
-    
-     <link rel="stylesheet" href="../css/Mainpage.css">
+    <link rel="stylesheet" href="../css/Mainpage.css">
     
     <!-- jQuery 라이브러리 로드 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -28,14 +27,14 @@
         String userEmail = (String) session.getAttribute("EMAIL");
         
         // 로그인하지 않은 경우 로그인 페이지로 이동
-        if(userName == null || userEmail == null) {
+        if (userName == null || userEmail == null) {
             response.sendRedirect("login.jsp");
             return;
         }
-        
+
         // 데이터베이스에서 주식 목록 가져오기
         StockDAO stockDAO = new StockDAO();
-        List<Stock> availableStocks = stockDAO.getAllStocks();
+        List<StockDTO> availableStocks = stockDAO.getStockByCompany("AAPL"); // 예시로 특정 회사(AAPL) 주식 가져오기
     %>
 
     <!-- 네비게이션 바 -->
@@ -107,8 +106,8 @@
                 <div class="stock-selection">
                     <!-- 주식 목록 선택 -->
                     <select id="stockSelect" multiple>
-                        <% for(Stock stock : availableStocks) { %>
-                            <option value="<%= stock.getCode() %>"><%= stock.getName() %></option>
+                        <% for (StockDTO stock : availableStocks) { %>
+                            <option value="<%= stock.getCOMPANY_CODE() %>"><%= stock.getCOMPANY_CODE() %></option>
                         <% } %>
                     </select>
                     <button onclick="addSelectedStocks()">추가</button>
@@ -142,7 +141,7 @@
             
             selectedStocksContainer.empty(); // 기존 선택 초기화
 
-            if(selectedOptions && selectedOptions.length > 0) {
+            if (selectedOptions && selectedOptions.length > 0) {
                 selectedOptions.forEach(stockCode => {
                     // 주식 정보를 가져오기 위한 AJAX 요청
                     $.ajax({
