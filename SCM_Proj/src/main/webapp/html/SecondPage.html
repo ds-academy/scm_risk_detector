@@ -71,14 +71,14 @@
         <section class="chart-section">
             <div class="stock-info">
                 <select id="stockSelector" class="stock-selector">
+                    <option value="004370">농심 (004370)</option>
+                    <option value="005380">현대자동차 (005380)</option>
                     <option value="005930">삼성전자 (005930)</option>
-                    <option value="000660">SK하이닉스 (000660)</option>
-                    <option value="035720">카카오 (035720)</option>
-                    <option value="035420">NAVER (035420)</option>
+                    <option value="034220">LG디스플레이 (034220)</option>
+                    <option value="051900">LG생활건강(051900)</option>
                     <option value="051910">LG화학 (051910)</option>
-                    <option value="005380">현대차 (005380)</option>
-                    <option value="207940">삼성바이오로직스 (207940)</option>
-                    <option value="006400">삼성SDI (006400)</option>
+                    <option value="073240">금호타이어 (073240)</option>
+                    <option value="267260">HD현대일렉트릭 (267260)</option>
                 </select>
                 <div class="stock-price">72,300원</div>
             </div>
@@ -89,14 +89,14 @@
         <section class="risk-section">
             <div class="stock-info">
                 <select id="riskSelector" class="stock-selector">
+                    <option value="004370">농심 (004370)</option>
+                    <option value="005380">현대자동차 (005380)</option>
                     <option value="005930">삼성전자 (005930)</option>
-                    <option value="000660">SK하이닉스 (000660)</option>
-                    <option value="035720">카카오 (035720)</option>
-                    <option value="035420">NAVER (035420)</option>
+                    <option value="034220">LG디스플레이 (034220)</option>
+                    <option value="051900">LG생활건강(051900)</option>
                     <option value="051910">LG화학 (051910)</option>
-                    <option value="005380">현대차 (005380)</option>
-                    <option value="207940">삼성바이오로직스 (207940)</option>
-                    <option value="006400">삼성SDI (006400)</option>
+                    <option value="073240">금호타이어 (073240)</option>
+                    <option value="267260">HD현대일렉트릭 (267260)</option>
                 </select>
                 <div class="stock-price">위험도: 65%</div>
             </div>
@@ -110,36 +110,36 @@
     <script>
         // 주식 데이터 (예시)
         const stockData = {
-            '005930': {
-                name: '삼성전자',
+            '004370': {
+                name: '농심',
                 data: [71000, 71200, 71800, 71500, 72100, 72400, 72300, 72300]
             },
-            '000660': {
-                name: 'SK하이닉스',
+            '005380': {
+                name: '현대자동차',
                 data: [125000, 126000, 125800, 126500, 127000, 126800, 127200, 127500]
             },
-            '035720': {
-                name: '카카오',
+            '005930': {
+                name: '삼성전자',
                 data: [45000, 45200, 45500, 45300, 45800, 46000, 45900, 46200]
             },
-            '035420': {
-                name: 'NAVER',
+            '034220': {
+                name: 'LG디스플레이',
                 data: [185000, 186000, 186500, 187000, 186800, 187500, 188000, 188200]
+            },
+            '051900': {
+                name: 'LG생활건강',
+                data: [550000, 552000, 553000, 551000, 554000, 555000, 556000, 557000]
             },
             '051910': {
                 name: 'LG화학',
-                data: [550000, 552000, 553000, 551000, 554000, 555000, 556000, 557000]
-            },
-            '005380': {
-                name: '현대차',
                 data: [175000, 176000, 176500, 177000, 176800, 177500, 178000, 178200]
             },
-            '207940': {
-                name: '삼성바이오로직스',
+            '0073240': {
+                name: '금호타이어',
                 data: [820000, 822000, 823000, 821000, 824000, 825000, 826000, 827000]
             },
-            '006400': {
-                name: '삼성SDI',
+            '267260': {
+                name: 'HD현대일렉트릭',
                 data: [450000, 452000, 453000, 451000, 454000, 455000, 456000, 457000]
             }
         };
@@ -212,43 +212,43 @@
     <script>
         // 공급망 위험 데이터 (예시 - 6개월치 데이터)
         const riskData = {
-            '005930': {
-                name: '삼성전자',
+            '004370': {
+                name: '농심',
                 data: [65, 63, 68, 64, 62, 65],
                 riskLevel: '65%'
             },
-            '000660': {
-                name: 'SK하이닉스',
+            '005380': {
+                name: '현대자동차',
                 data: [70, 72, 75, 73, 71, 74],
                 riskLevel: '74%'
             },
-            '035720': {
-                name: '카카오',
+            '005930': {
+                name: '삼성전자',
                 data: [45, 43, 44, 46, 45, 47],
                 riskLevel: '47%'
             },
-            '035420': {
-                name: 'NAVER',
+            '034220': {
+                name: 'LG디스플레이',
                 data: [48, 46, 45, 47, 49, 48],
                 riskLevel: '48%'
             },
-            '051910': {
-                name: 'LG화학',
+            '051900': {
+                name: 'LG생활건강',
                 data: [78, 76, 75, 77, 79, 80],
                 riskLevel: '80%'
             },
-            '005380': {
-                name: '현대차',
+            '051910': {
+                name: 'LG화학',
                 data: [72, 70, 73, 75, 74, 73],
                 riskLevel: '73%'
             },
-            '207940': {
-                name: '삼성바이오로직스',
+            '073240': {
+                name: '금호타이어',
                 data: [55, 53, 54, 56, 55, 57],
                 riskLevel: '57%'
             },
-            '006400': {
-                name: '삼성SDI',
+            '267260': {
+                name: 'HD현대일렉트릭',
                 data: [68, 66, 65, 67, 69, 68],
                 riskLevel: '68%'
             }
