@@ -10,7 +10,7 @@
 
 <%
     // ✅ 세션 확인 (로그인 여부 체크)
-    HttpSession userSession = request.getSession(false); // 중복 선언 방지
+    HttpSession userSession = request.getSession(false);
     if (userSession == null || userSession.getAttribute("user") == null) {
         System.out.println("세션 오류: 로그인한 사용자 정보 없음");
         response.sendRedirect("Login.jsp");
@@ -39,16 +39,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPAndTech - 마이페이지</title>
-    
-    <!-- 스타일 및 라이브러리 -->
+
+    <!-- ✅ 원본 스타일 유지 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/Mypage.css">
-    <link rel="stylesheet" href="../css/Mainpage.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
-    <!-- 네비게이션 바 -->
+    <!-- ✅ 원본 네비게이션 바 유지 -->
     <nav class="navbar">
         <div class="logo">
             <i class="fas fa-leaf"></i> SPAndTech
@@ -65,9 +65,8 @@
         <button class="btn-login" onclick="logout()">로그아웃</button>
     </nav>
 
-    <!-- 메인 콘텐츠 -->
+    <!-- ✅ 원본 프로필 섹션 유지 -->
     <main class="main-content">
-        <!-- 프로필 섹션 -->
         <section class="profile-section">
             <div class="profile-header">
                 <div class="profile-info">
@@ -83,7 +82,7 @@
             </div>
         </section>
 
-        <!-- 관심 종목 섹션 -->
+        <!-- ✅ 관심 종목 (동적 데이터 반영) -->
         <section class="watchlist-section">
             <h2 class="section-title">관심 종목</h2>
             <div class="watchlist-grid">
@@ -101,10 +100,12 @@
     </main>
 
     <script>
+        // ✅ 로그아웃 기능
         function logout() {
             window.location.href = '<%= request.getContextPath() %>/auth?action=logout';
         }
 
+        // ✅ 관심 주식 추가 기능 (동적 데이터 반영)
         function addSelectedStocks() {
             const selectedOptions = $('#stockSelect').val();
             const selectedStocksContainer = $('#selectedStocksContainer');
@@ -137,6 +138,7 @@
             }
         }
 
+        // ✅ 관심 주식 제거 기능
         function removeStock(stockCode) {
             $(`#selectedStocksContainer .stock-card:contains('\${stockCode}')`).remove();
         }
