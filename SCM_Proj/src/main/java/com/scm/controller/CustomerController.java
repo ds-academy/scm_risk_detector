@@ -53,7 +53,7 @@ public class CustomerController extends HttpServlet {
         if (loggedInUser != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", loggedInUser);
-            response.sendRedirect(request.getContextPath() + "/jsp/Mypage.jsp"); // ✅ 수정된 경로
+            response.sendRedirect(request.getContextPath() + "/jsp/Mypage2.jsp"); // Mypage2.jsp로 리디렉션
         } else {
             request.setAttribute("loginError", "로그인 실패: 아이디 또는 비밀번호가 틀립니다.");
             request.getRequestDispatcher("/jsp/Login.jsp").forward(request, response);
@@ -62,8 +62,6 @@ public class CustomerController extends HttpServlet {
 
     // 회원가입 처리
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-
         String userId = request.getParameter("USER_ID");
         String userName = request.getParameter("USER_NAME");
         String password = request.getParameter("PASSWORD");
@@ -89,7 +87,7 @@ public class CustomerController extends HttpServlet {
         }
     }
 
-    // ✅ 회원 정보 업데이트 처리
+    // 회원 정보 업데이트 처리
     private void updateCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         CustomerDTO loggedInUser = (CustomerDTO) session.getAttribute("user");
@@ -117,7 +115,7 @@ public class CustomerController extends HttpServlet {
 
         if (isUpdated) {
             session.setAttribute("user", dto);
-            response.sendRedirect(request.getContextPath() + "/jsp/Mypage.jsp?success=updated"); // ✅ 수정된 경로
+            response.sendRedirect(request.getContextPath() + "/jsp/Mypage.jsp?success=updated");
         } else {
             request.setAttribute("updateError", "업데이트 실패: 다시 시도해주세요.");
             request.getRequestDispatcher("/jsp/Mypage.jsp").forward(request, response);
