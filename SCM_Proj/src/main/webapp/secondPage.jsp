@@ -55,8 +55,8 @@
     <title>SPAndTech</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/css/SecondPage.css">
-    <link rel="stylesheet" href="secondpage.html">
+    <link rel="stylesheet" href="../css/SecondPage.css">
+    <link rel="stylesheet" href="../html/Secondpage.html">
 </head>
 <body>
     <nav class="navbar">

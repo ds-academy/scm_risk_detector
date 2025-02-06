@@ -33,7 +33,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- Mapper 파일 경로 -->
 		<mapper resource="com/scm/db/CustomerMapper.xml" />
 		<mapper resource="com/scm/db/StockMapper.xml" />
-		<mapper resource="com/scm/db/NewsMapper.xml" />
 	</mappers>
 
 </configuration>
