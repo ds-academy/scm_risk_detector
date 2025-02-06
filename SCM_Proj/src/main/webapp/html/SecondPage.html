@@ -365,69 +365,77 @@
         });
         </script>
 <script>
-    var page = 1;
-    var limit = 3;
-    var maxNewsCount = 100; // 최대 뉴스 항목 수
-    var timer; // setInterval을 담을 변수
+var page = 0;
+var limit = 3;
+var allPositiveNews = [];  
+var timer; 
 
-    // 뉴스 데이터를 불러오는 함수
-    function loadNews() {
-        // 현재 테이블에 추가된 뉴스 행 개수를 체크
-        var currentCount = $('#newsTable tbody tr').length;
-        console.log("현재 뉴스 개수:", currentCount);  // 현재 뉴스 개수 확인
-        if (currentCount >= maxNewsCount) {
-            clearInterval(timer);
+function loadNews() {
+    console.log("📡 AJAX 요청 시작!");
+
+    $.ajax({
+        url: '/com.SCM_Pro.proj/newsController',  // URL 확인!
+        method: 'GET',
+        dataType: 'json',
+        data: { action: 'getPositiveNews' },
+        success: function(data) {
+            console.log("✅ 받은 데이터:", data);
+            
+            if (!Array.isArray(data)) {
+                try {
+                    allPositiveNews = JSON.parse(data);
+                } catch (error) {
+                    console.error("❌ JSON 변환 실패:", error);
+                    return;
+                }
+            } else {
+                allPositiveNews = data;
+            }
+
+            updatePositiveNews();    
+        },
+        error: function(xhr, status, error) {
+            console.error("❌ 뉴스 데이터를 불러오는 데 실패했습니다:", error);
+        }
+    });
+}
+
+
+function updatePositiveNews() {
+    var tbody = $('#newsTable tbody');
+    tbody.empty(); 
+
+    let start = page * limit;
+    let end = start + limit;
+    let pagedNews = allPositiveNews.slice(start, end);
+
+    if (pagedNews.length === 0) {
+        page = 0;
+        updatePositiveNews();
+        return;
+    }
+
+    $.each(pagedNews, function(index, news) {
+        console.log("현재 뉴스 데이터:", news);
+
+        if (!news.title || !news.meta) {
+            console.error("데이터 필드가 부족함:", news);
             return;
         }
 
-        $.ajax({
-            url: '/com.SCM_Pro.proj/newsController',  // 경로 수정
-            method: 'GET',
-            dataType: 'json',
-            data: {
-                action: 'getPositiveNews',
-                page: page,
-                limit: limit
-            },
-            success: function(data) {
-                console.log("받은 데이터:", data);  // 받아온 데이터 로그 확인
-
-                // 반환된 데이터가 없으면 타이머 종료
-                if (!data || data.length === 0) {
-                    clearInterval(timer);
-                    return;
-                }
-
-                var tbody = $('#newsTable tbody');
-                $.each(data, function(index, news) {
-                    var row = $('<tr class="news-item"></tr>');
-                    row.append($('<td class="news-title"></td>').text(news.TITLE));  // TITLE 속성에 맞게 수정
-                    row.append($('<td class="news-meta"></td>').text(news.PUB_DATE));  // PUB_DATE 속성에 맞게 수정
-                    tbody.append(row);
-                });
-
-                // 페이지 값을 증가시켜 다음 데이터를 요청
-                page++;
-
-                // 현재 테이블의 뉴스 개수를 다시 체크
-                currentCount = $('#newsTable tbody tr').length;
-                console.log("현재 뉴스 개수:", currentCount);  // 현재 뉴스 개수 확인
-                if (currentCount >= maxNewsCount) {
-                    clearInterval(timer);
-                    return;
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("뉴스 데이터를 불러오는 데 실패했습니다: " + error);
-            }
-        });
-    }
-
-    // 문서 로드 시 최초 3개 뉴스 로드 및 3초마다 추가 요청 설정
-    $(document).ready(function(){
-        loadNews(); // 최초 로드
-        timer = setInterval(loadNews, 3000);  // 3초마다 추가 요청
+        var row = $('<tr class="news-item"></tr>');
+        row.append($('<td class="news-title"></td>').text(news.title));
+        row.append($('<td class="news-meta"></td>').text(news.meta));
+        tbody.append(row);
     });
+
+    page++; 
+}
+
+$(document).ready(function(){
+    loadNews(); 
+    timer = setInterval(updatePositiveNews, 3000);
+});
 </script>
 
 
