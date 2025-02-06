@@ -25,15 +25,15 @@
 	</nav>
 
 	<main class="main-content">
-<!-- 		<section class="sentiment-news">
+		<section class="sentiment-news">
 			<div class="news-header">
 				<div class="news-icon positive">
 					<i class="fas fa-arrow-up"></i>
 				</div>
 				<h2 class="section-title">긍정 뉴스</h2>
 			</div>
-			<table id="newsTable">
-				<thead>
+			<div id="positive-news">
+				<!--<thead>
 					<tr>
 						<th class="news-title">뉴스 제목</th>
 						<th class="news-meta">뉴스 메타</th>
@@ -42,7 +42,7 @@
 				<tbody>
 					AJAX로 받아온 뉴스 데이터가 추가됩니다.
 				</tbody>
-			</table> -->
+			</table>
 
 
 			<!-- 			<div class="news-item">
@@ -56,8 +56,8 @@
 			<div class="news-item">
 				<div class="news-title">글로벌 투자자금 국내 주식시장 유입 확대</div>
 				<div class="news-meta">30분 전 • 투자저널</div>
-			</div> -->
-<!-- 		</section> -->
+			</div>
+ 		</section>
 
  <section class="sentiment-news">
         <div class="news-header">
@@ -74,9 +74,10 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- AJAX로 받아온 뉴스 데이터가 추가됩니다. -->
+                 AJAX로 받아온 뉴스 데이터가 추가됩니다. 
             </tbody>
-        </table>
+        </table>-->
+        </div>
     </section>
 
 		<section class="sentiment-news">
@@ -367,74 +368,75 @@
 <script>
 var page = 0;
 var limit = 3;
-var allPositiveNews = [];  
-var timer; 
+var allPositiveNews = [];
+var timer;
 
 function loadNews() {
-    console.log("📡 AJAX 요청 시작!");
-
+    console.log("📡 AJAX 요청을 보냅니다...");
+    
     $.ajax({
-        url: '/com.SCM_Pro.proj/newsController',  // URL 확인!
+        url: '/com.SCM_Pro.proj/newsController',
         method: 'GET',
         dataType: 'json',
-        data: { action: 'getPositiveNews' },
+        data: {
+            action: 'getPositiveNews',
+            page: page,
+            limit: limit
+        },
         success: function(data) {
-            console.log("✅ 받은 데이터:", data);
-            
-            if (!Array.isArray(data)) {
-                try {
-                    allPositiveNews = JSON.parse(data);
-                } catch (error) {
-                    console.error("❌ JSON 변환 실패:", error);
-                    return;
-                }
-            } else {
+            if (Array.isArray(data) && data.length > 0) {
+                // 새 데이터로 배열 업데이트
                 allPositiveNews = data;
+                updateNewsDisplay();
+                page++;
             }
-
-            updatePositiveNews();    
         },
         error: function(xhr, status, error) {
-            console.error("❌ 뉴스 데이터를 불러오는 데 실패했습니다:", error);
+            console.error("뉴스 데이터를 불러오는 데 실패했습니다: " + error);
+            showErrorMessage("뉴스를 불러오는데 실패했습니다.");
         }
     });
 }
 
-
-function updatePositiveNews() {
-    var tbody = $('#newsTable tbody');
-    tbody.empty(); 
-
-    let start = page * limit;
-    let end = start + limit;
-    let pagedNews = allPositiveNews.slice(start, end);
-
-    if (pagedNews.length === 0) {
-        page = 0;
-        updatePositiveNews();
+function updateNewsDisplay() {
+    var newsContainer = $('#positive-news'); // jQuery 셀렉터로 변경
+    if(!newsContainer.length) {
+        console.error('positive-news element not found');
         return;
     }
-
-    $.each(pagedNews, function(index, news) {
-        console.log("현재 뉴스 데이터:", news);
-
-        if (!news.title || !news.meta) {
-            console.error("데이터 필드가 부족함:", news);
-            return;
-        }
-
-        var row = $('<tr class="news-item"></tr>');
-        row.append($('<td class="news-title"></td>').text(news.title));
-        row.append($('<td class="news-meta"></td>').text(news.meta));
-        tbody.append(row);
+    
+    // 기존 데이터 초기화
+    newsContainer.empty();
+    
+    // 새 데이터 추가
+    allPositiveNews.forEach(function(news) {
+        var title = news.TITLE || "제목 없음";
+        var pubDate = news.PUB_DATE || "날짜 없음";
+        
+        var newsItem = $('<div class="news-item"></div>')
+            .append($('<div class="news-title"></div>').text(title))
+            .append($('<div class="news-meta"></div>').text(pubDate + ' • 경제신문'));
+            
+        newsContainer.append(newsItem);
     });
-
-    page++; 
 }
 
-$(document).ready(function(){
-    loadNews(); 
-    timer = setInterval(updatePositiveNews, 3000);
+function showErrorMessage(message) {
+    var tbody = $('#newsTable tbody');
+    tbody.html(`<tr><td colspan="2" class="error-message">${message}</td></tr>`);
+}
+
+// 페이지 로드 시 초기화
+$(document).ready(function() {
+    loadNews();
+    timer = setInterval(loadNews, 3000);
+    
+    // 페이지 언로드 시 타이머 정리
+    $(window).on('unload', function() {
+        if (timer) {
+            clearInterval(timer);
+        }
+    });
 });
 </script>
 
