@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.scm.model.CustomerDTO" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
 
@@ -13,21 +13,20 @@
     <link rel="stylesheet" href="../css/Mypage2.css">
 </head>
 <body>
-    <%-- <%
+    <% 
         HttpSession userSession = request.getSession(false);
-        CustomerDTO user = (CustomerDTO) userSession.getAttribute("user");
-
-        if (user == null) {
+        if (userSession == null || userSession.getAttribute("user") == null) {
             response.sendRedirect("Login.jsp");
             return;
         }
-
+        
+        CustomerDTO user = (CustomerDTO) userSession.getAttribute("user");
         String userId = user.getUSER_ID();
         String userName = user.getUSER_NAME();
         String userEmail = user.getEMAIL();
         String userPhone = user.getMOBILE();
     %>
- --%>
+
     <nav class="navbar">
         <div class="logo">
             <i class="fas fa-leaf"></i> SPAndTech
@@ -52,34 +51,25 @@
             </div>
 
             <form class="profile-form" id="profileForm" action="<%= request.getContextPath() %>/auth?action=update" method="post" onsubmit="return validateAndSubmit()">
-                <div class="form-image-section">
-                    <div class="profile-image-wrapper">
-                        <div class="profile-image" id="profileImageDisplay">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="image-upload-overlay">
-                            <i class="fas fa-camera"></i>
-                        </div>
-                    </div>
-                    <input type="file" id="profileImage" name="profileImage" hidden accept="image/*" onchange="previewImage(event)">
-                    <button type="button" class="btn-upload" onclick="document.getElementById('profileImage').click()">이미지 업로드</button>
-                </div>
-
                 <div class="form-fields">
                     <div class="form-group">
                         <label for="username">아이디</label>
                         <input type="text" id="username" name="USER_ID" value="<%= userId %>" class="form-input" readonly>
-                        <p class="input-description">아이디는 변경할 수 없습니다.</p>
                     </div>
 
                     <div class="form-group">
                         <label for="name">이름</label>
-                        <input type="text" id="name" name="USER_NAME" value="<%= userName %>" class="form-input">
+                        <input type="text" id="name" name="USER_NAME" value="<%= userName %>" class="form-input" required>
                     </div>
 
                     <div class="form-group">
                         <label for="password">비밀번호</label>
                         <input type="password" id="password" name="PASSWORD" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">비밀번호 확인</label>
+                        <input type="password" id="confirmPassword" class="form-input" required>
                     </div>
 
                     <div class="form-group">
@@ -91,28 +81,17 @@
                         <label for="email">이메일</label>
                         <input type="email" id="email" name="EMAIL" value="<%= userEmail %>" class="form-input" readonly>
                     </div>
+                </div>
 
-                    <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="cancelEdit()">취소</button>
-                        <button type="submit" class="btn-save">저장하기</button>
-                    </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="cancelEdit()">취소</button>
+                    <button type="submit" class="btn-save">저장하기</button>
                 </div>
             </form>
         </section>
     </main>
 
     <script>
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                document.getElementById('profileImageDisplay').innerHTML = `<img src="${e.target.result}" alt="Profile Image" style="width:100%; height:100%; object-fit:cover;">`;
-            }
-            
-            reader.readAsDataURL(file);
-        }
-
         function validatePassword(password) {
             const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
             return passwordRegex.test(password);
@@ -120,13 +99,16 @@
 
         function validateAndSubmit() {
             const password = document.getElementById('password').value;
-            
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
             if (!validatePassword(password)) {
-                alert('오류: 비밀번호는 최소 8자 이상, 숫자 및 특수 문자를 포함해야 합니다.');
+                alert('비밀번호는 최소 8자 이상, 숫자 및 특수 문자를 포함해야 합니다.');
                 return false;
             }
-
-            alert('회원 수정이 확인되었습니다.');
+            if (password !== confirmPassword) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return false;
+            }
             return true;
         }
 
