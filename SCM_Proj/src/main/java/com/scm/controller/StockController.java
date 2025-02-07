@@ -1,48 +1,51 @@
 package com.scm.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
+import com.scm.db.SqlSessionManager;
+import com.scm.model.StockDAO;
+import com.scm.model.StockDTO;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import com.google.gson.Gson;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
-import com.scm.model.StockDAO;
-import com.scm.model.StockDTO;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-@WebServlet("/stock")
+@WebServlet("/stocks")
 public class StockController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
     private StockDAO stockDAO;
+    private SqlSessionFactory sessionFactory = SqlSessionManager.getSqlSession();
+	
+//    @Override
+//    public void init() throws ServletException {
+//        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(
+//            getServletContext().getResourceAsStream("/WEB-INF/mybatis-config.xml")
+//        );
+//        stockDAO = new StockDAO(sqlSessionFactory);
+//    }
 
     @Override
-    public void init() throws ServletException {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mybatis-config.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        stockDAO = new StockDAO(sqlSessionFactory);
-    }
-
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String companyCode = request.getParameter("companyCode");
-        String date = request.getParameter("date");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+    	stockDAO = new StockDAO(sessionFactory);
+    	String companyCode = request.getParameter("companyCode");
 
         if (companyCode == null || companyCode.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Company code is required");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "회사 코드가 필요합니다.");
             return;
         }
 
-        if (date != null && !date.isEmpty()) {
-            StockDTO stock = stockDAO.getStockByDate(companyCode, date);
-            request.setAttribute("stock", stock);
-            request.getRequestDispatcher("stockDetail.jsp").forward(request, response);
-        } else {
-            List<StockDTO> stockList = stockDAO.getStockByCompany(companyCode);
-            request.setAttribute("stockList", stockList);
-            request.getRequestDispatcher("stockList.jsp").forward(request, response);
-        }
+        List<StockDTO> closePrices = stockDAO.getClosePriceByCompany(companyCode);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        Gson gson = new Gson();
+        String jsonResponse = gson.toJson(closePrices);
+        response.getWriter().write(jsonResponse);
     }
 }
