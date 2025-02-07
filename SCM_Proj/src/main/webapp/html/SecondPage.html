@@ -5,184 +5,166 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SPAndTech</title>
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="../css/SecondPage.css">
 </head>
 <body>
-	<nav class="navbar">
-		<div class="logo">
-			<i class="fas fa-leaf"></i> SPAndTech
-		</div>
-		<div class="nav-links">
-			<a href="#">홈</a> <a href="#">마이페이지</a> <a href="#">설정</a> <a
-				href="#">리스크</a>
-		</div>
-		<div class="search-bar">
-			<input type="text" placeholder="종목명, 종목코드 검색">
-		</div>
-		<button class="btn-login">로그인</button>
-	</nav>
+   <nav class="navbar">
+      <div class="logo">
+         <i class="fas fa-leaf"></i> SPAndTech
+      </div>
+      <div class="nav-links">
+         <a href="#">홈</a> <a href="#">마이페이지</a> <a href="#">설정</a> <a
+            href="#">리스크</a>
+      </div>
+      <div class="search-bar">
+         <input type="text" placeholder="종목명, 종목코드 검색">
+      </div>
+      <button class="btn-login">로그인</button>
+   </nav>
 
-	<main class="main-content">
-		<section class="sentiment-news">
-			<div class="news-header">
-				<div class="news-icon positive">
-					<i class="fas fa-arrow-up"></i>
-				</div>
-				<h2 class="section-title">긍정 뉴스</h2>
-			</div>
-			<div id="positive-news">
-				<!--<thead>
-					<tr>
-						<th class="news-title">뉴스 제목</th>
-						<th class="news-meta">뉴스 메타</th>
-					</tr>
-				</thead>
-				<tbody>
-					AJAX로 받아온 뉴스 데이터가 추가됩니다.
-				</tbody>
-			</table>
-
-
-			<!-- 			<div class="news-item">
-				<div class="news-title">반도체 수출 증가세 지속, 전년 대비 15% 상승</div>
-				<div class="news-meta">5분 전 • 경제신문</div>
-			</div>
-			<div class="news-item">
-				<div class="news-title">주요 기업 실적 전망치 상향 조정</div>
-				<div class="news-meta">15분 전 • 테크뉴스</div>
-			</div>
-			<div class="news-item">
-				<div class="news-title">글로벌 투자자금 국내 주식시장 유입 확대</div>
-				<div class="news-meta">30분 전 • 투자저널</div>
-			</div>
- 		</section>
-
- <section class="sentiment-news">
-        <div class="news-header">
+   <main class="main-content">
+      <!--       <section class="sentiment-news">
+         <div class="news-header">
             <div class="news-icon positive">
-                <i class="fas fa-arrow-up"></i>
+               <i class="fas fa-arrow-up"></i>
             </div>
             <h2 class="section-title">긍정 뉴스</h2>
-        </div>
-        <table id="newsTable">
+         </div>
+         <table id="newsTable">
             <thead>
-                <tr>
-                    <th class="news-title">뉴스 제목</th>
-                    <th class="news-meta">뉴스 메타</th>
-                </tr>
+               <tr>
+                  <th class="news-title">뉴스 제목</th>
+                  <th class="news-meta">뉴스 메타</th>
+               </tr>
             </thead>
             <tbody>
-                 AJAX로 받아온 뉴스 데이터가 추가됩니다. 
+               AJAX로 받아온 뉴스 데이터가 추가됩니다.
             </tbody>
-        </table>-->
-        </div>
-    </section>
+         </table> -->
 
-		<section class="sentiment-news">
-			<div class="news-header">
-				<div class="news-icon negative">
-					<i class="fas fa-arrow-down"></i>
-				</div>
-				<h2 class="section-title">부정 뉴스</h2>
-			</div>
-			<div class="news-item">
-				<div class="news-title">원자재 가격 상승으로 기업 부담 가중</div>
-				<div class="news-meta">10분 전 • 경제신문</div>
-			</div>
-			<div class="news-item">
-				<div class="news-title">미 연준 금리 인상 우려 확대</div>
-				<div class="news-meta">20분 전 • 글로벌뉴스</div>
-			</div>
-			<div class="news-item">
-				<div class="news-title">중국 경기 둔화 조짐에 수출기업 우려</div>
-				<div class="news-meta">35분 전 • 투자저널</div>
-			</div>
-		</section>
 
-		<section class="chart-section">
-			<div class="stock-info">
-				<select id="stockSelector" class="stock-selector">
-					<option value="004370">농심 (004370)</option>
-					<option value="005380">현대자동차 (005380)</option>
-					<option value="005930">삼성전자 (005930)</option>
-					<option value="034220">LG디스플레이 (034220)</option>
-					<option value="051900">LG생활건강(051900)</option>
-					<option value="051910">LG화학 (051910)</option>
-					<option value="073240">금호타이어 (073240)</option>
-					<option value="267260">HD현대일렉트릭 (267260)</option>
-				</select>
-				<div class="stock-price">72,300원</div>
-			</div>
-			<div class="chart-wrapper">
-				<canvas id="stockChart"></canvas>
-			</div>
-		</section>
-		<section class="risk-section">
-			<div class="stock-info">
-				<select id="riskSelector" class="stock-selector">
-					<option value="004370">농심 (004370)</option>
-					<option value="005380">현대자동차 (005380)</option>
-					<option value="005930">삼성전자 (005930)</option>
-					<option value="034220">LG디스플레이 (034220)</option>
-					<option value="051900">LG생활건강(051900)</option>
-					<option value="051910">LG화학 (051910)</option>
-					<option value="073240">금호타이어 (073240)</option>
-					<option value="267260">HD현대일렉트릭 (267260)</option>
-				</select>
-				<div class="stock-price">위험도: 65%</div>
-			</div>
-			<div class="chart-wrapper">
-				<canvas id="riskChart"></canvas>
-			</div>
-		</section>
+      <!--          <div class="news-item">
+            <div class="news-title">반도체 수출 증가세 지속, 전년 대비 15% 상승</div>
+            <div class="news-meta">5분 전 • 경제신문</div>
+         </div>
+         <div class="news-item">
+            <div class="news-title">주요 기업 실적 전망치 상향 조정</div>
+            <div class="news-meta">15분 전 • 테크뉴스</div>
+         </div>
+         <div class="news-item">
+            <div class="news-title">글로벌 투자자금 국내 주식시장 유입 확대</div>
+            <div class="news-meta">30분 전 • 투자저널</div>
+         </div> -->
+      <!--       </section> -->
 
-	</main>
+      <section class="sentiment-news">
+         <div class="news-header">
+            <div class="news-icon positive">
+               <i class="fas fa-arrow-up"></i>
+            </div>
+            <h2 class="section-title">긍정 뉴스</h2>
+         </div>
+         <div id="positive-news">
+            <!-- 뉴스 항목들이 여기에 추가됨 -->
+         </div>
+      </section>
 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script>
+      <section class="sentiment-news">
+         <div class="news-header">
+            <div class="news-icon negative">
+               <i class="fas fa-arrow-down"></i>
+            </div>
+            <h2 class="section-title">부정 뉴스</h2>
+         </div>
+         <div id="negative-news">
+            <!-- 뉴스 항목들이 여기에 추가됨 -->
+         </div>
+      </section>
+
+      <section class="chart-section">
+         <div class="stock-info">
+            <select id="stockSelector" class="stock-selector">
+               <option value="004370">농심 (004370)</option>
+               <option value="005380">현대자동차 (005380)</option>
+               <option value="005930">삼성전자 (005930)</option>
+               <option value="034220">LG디스플레이 (034220)</option>
+               <option value="051900">LG생활건강(051900)</option>
+               <option value="051910">LG화학 (051910)</option>
+               <option value="073240">금호타이어 (073240)</option>
+               <option value="267260">HD현대일렉트릭 (267260)</option>
+            </select>
+            <div class="stock-price">72,300원</div>
+         </div>
+         <div class="chart-wrapper">
+            <canvas id="stockChart"></canvas>
+         </div>
+      </section>
+      <section class="risk-section">
+         <div class="stock-info">
+            <select id="riskSelector" class="stock-selector">
+               <option value="004370">농심 (004370)</option>
+               <option value="005380">현대자동차 (005380)</option>
+               <option value="005930">삼성전자 (005930)</option>
+               <option value="034220">LG디스플레이 (034220)</option>
+               <option value="051900">LG생활건강(051900)</option>
+               <option value="051910">LG화학 (051910)</option>
+               <option value="073240">금호타이어 (073240)</option>
+               <option value="267260">HD현대일렉트릭 (267260)</option>
+            </select>
+            <div class="stock-price">위험도: 65%</div>
+         </div>
+         <div class="chart-wrapper">
+            <canvas id="riskChart"></canvas>
+         </div>
+      </section>
+
+   </main>
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
     // jQuery 코드
-	    $(document).ready(function() {
-	        // jQuery 코드 사용
-	    });
-	</script>
+       $(document).ready(function() {
+           // jQuery 코드 사용
+       });
+   </script>
 
 
-	<script>
+   <script>
         // 주식 데이터 (예시)
         const stockData = {
             '004370': {
                 name: '농심',
-                data: [71000, 71200, 71800, 71500, 72100, 72400, 72300, 72300]
+                data: [19500, 25200, 31000, 36800, 42500, 48000, 54000 ,59900]
             },
             '005380': {
                 name: '현대자동차',
-                data: [125000, 126000, 125800, 126500, 127000, 126800, 127200, 127500]
+                data: [37900, 75000 ,112000 , 150000, 187000, 224000, 262000, 299500]
             },
             '005930': {
                 name: '삼성전자',
-                data: [45000, 45200, 45500, 45300, 45800, 46000, 45900, 46200]
+                data: [8770, 21000, 33900, 46000, 59000, 71600, 84000, 96800]
             },
             '034220': {
                 name: 'LG디스플레이',
-                data: [185000, 186000, 186500, 187000, 186800, 187500, 188000, 188200]
+                data: [8770, 12000 ,16300 ,20000 ,24000 ,28000 ,32000, 36600]
             },
             '051900': {
                 name: 'LG생활건강',
-                data: [550000, 552000, 553000, 551000, 554000, 555000, 556000, 557000]
+                data: [194500, 420000, 648000, 875000, 1100000, 1300000, 1550000, 1784000]
             },
             '051910': {
                 name: 'LG화학',
-                data: [175000, 176000, 176500, 177000, 176800, 177500, 178000, 178200]
+                data: [118000,250000 , 380000, 517000,650000,780000,916000 ,1050000]
             },
-            '0073240': {
+            '073240': {
                 name: '금호타이어',
-                data: [820000, 822000, 823000, 821000, 824000, 825000, 826000, 827000]
+                data: [2585,4300 ,6000 ,7800 ,9500 ,11000 ,13000 , 14800]
             },
             '267260': {
                 name: 'HD현대일렉트릭',
-                data: [450000, 452000, 453000, 451000, 454000, 455000, 456000, 457000]
+                data: [4840,68000 ,130000 ,195000 ,259000,320000 ,386000, 450000]
             }
         };
 
@@ -191,6 +173,11 @@
 
         function createChart(stockCode) {
             const stockInfo = stockData[stockCode];
+            console.log(stockCode);
+            console.log(stockData[stockCode]);
+            console.log(stockInfo);
+            console.log(stockInfo.data);
+            
             if (chart) {
                 chart.destroy();
             }
@@ -251,7 +238,7 @@
             createChart(e.target.value);
         });
     </script>
-	<script>
+   <script>
         // 공급망 위험 데이터 (예시 - 6개월치 데이터)
         const riskData = {
             '004370': {
@@ -365,73 +352,123 @@
             createRiskChart(e.target.value);
         });
         </script>
-<script>
+   <script>
 var page = 0;
 var limit = 3;
 var allPositiveNews = [];
 var timer;
 
+var page = 0;
+var limit = 3;
+var allPositiveNews = [];
+var allNegativeNews = []; // 추가
+var timer;
+
 function loadNews() {
-    console.log("📡 AJAX 요청을 보냅니다...");
-    
+    // 긍정 뉴스 로드
     $.ajax({
         url: '/com.SCM_Pro.proj/newsController',
         method: 'GET',
         dataType: 'json',
         data: {
-            action: 'getPositiveNews',
-            page: page,
-            limit: limit
+            action: 'getPositiveNews'
         },
         success: function(data) {
-            if (Array.isArray(data) && data.length > 0) {
-                // 새 데이터로 배열 업데이트
-                allPositiveNews = data;
-                updateNewsDisplay();
-                page++;
-            }
+            console.log("받은 긍정 데이터:", data);
+            allPositiveNews = data;
+            updateNewsDisplay();
         },
         error: function(xhr, status, error) {
-            console.error("뉴스 데이터를 불러오는 데 실패했습니다: " + error);
-            showErrorMessage("뉴스를 불러오는데 실패했습니다.");
+            console.error("긍정 뉴스 데이터를 불러오는 데 실패했습니다: " + error);
+        }
+    });
+
+    // 부정 뉴스 로드 (추가)
+    $.ajax({
+        url: '/com.SCM_Pro.proj/newsController',
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            action: 'getNegativeNews'
+        },
+        success: function(data) {
+            console.log("받은 부정 데이터:", data);
+            allNegativeNews = data;
+            updateNegativeNewsDisplay();
+        },
+        error: function(xhr, status, error) {
+            console.error("부정 뉴스 데이터를 불러오는 데 실패했습니다: " + error);
         }
     });
 }
 
+//HTML 엔티티를 디코딩하는 함수 추가
+function decodeHTMLEntities(text) {
+    var textArea = document.createElement('textarea');
+    textArea.innerHTML = text;
+    return textArea.value;
+}
+
 function updateNewsDisplay() {
-    var newsContainer = $('#positive-news'); // jQuery 셀렉터로 변경
-    if(!newsContainer.length) {
-        console.error('positive-news element not found');
-        return;
-    }
-    
-    // 기존 데이터 초기화
+    var newsContainer = $('#positive-news');
     newsContainer.empty();
+
+    var start = (page * limit) % allPositiveNews.length;
+    var end = Math.min(start + limit, allPositiveNews.length);
     
-    // 새 데이터 추가
-    allPositiveNews.forEach(function(news) {
-        var title = news.TITLE || "제목 없음";
-        var pubDate = news.PUB_DATE || "날짜 없음";
-        
-        var newsItem = $('<div class="news-item"></div>')
+    var newsToShow = allPositiveNews.slice(start, end);
+    if (newsToShow.length < limit) {
+        newsToShow = newsToShow.concat(allPositiveNews.slice(0, limit - newsToShow.length));
+    }
+
+    newsToShow.forEach(function(news) {
+        var title = decodeHTMLEntities(news.TITLE);
+
+        var newsItem = $('<div class="news-item" style="cursor: pointer;"></div>')
             .append($('<div class="news-title"></div>').text(title))
-            .append($('<div class="news-meta"></div>').text(pubDate + ' • 경제신문'));
-            
+            .append($('<div class="news-meta"></div>').text(new Date(news.PUB_DATE).toLocaleString()))
+            .click(function() {
+                window.open(news.NEWS_API, '_blank');
+            });
+        
         newsContainer.append(newsItem);
     });
 }
 
-function showErrorMessage(message) {
-    var tbody = $('#newsTable tbody');
-    tbody.html(`<tr><td colspan="2" class="error-message">${message}</td></tr>`);
-}
+function updateNegativeNewsDisplay() {
+    var newsContainer = $('#negative-news');
+    newsContainer.empty();
 
-// 페이지 로드 시 초기화
-$(document).ready(function() {
-    loadNews();
-    timer = setInterval(loadNews, 3000);
+    var start = (page * limit) % allNegativeNews.length;
+    var end = Math.min(start + limit, allNegativeNews.length);
     
-    // 페이지 언로드 시 타이머 정리
+    var newsToShow = allNegativeNews.slice(start, end);
+    if (newsToShow.length < limit) {
+        newsToShow = newsToShow.concat(allNegativeNews.slice(0, limit - newsToShow.length));
+    }
+
+    newsToShow.forEach(function(news) {
+        var title = decodeHTMLEntities(news.TITLE);
+
+        var newsItem = $('<div class="news-item" style="cursor: pointer;"></div>')
+            .append($('<div class="news-title"></div>').text(title))
+            .append($('<div class="news-meta"></div>').text(new Date(news.PUB_DATE).toLocaleString()))
+            .click(function() {
+                window.open(news.NEWS_API, '_blank');
+            });
+        
+        newsContainer.append(newsItem);
+    });
+}
+$(document).ready(function(){
+    loadNews();
+    // 3초마다 양쪽 뉴스 모두 업데이트
+    timer = setInterval(function() {
+        page++;
+        updateNewsDisplay();
+        updateNegativeNewsDisplay();
+    }, 3000);
+    
     $(window).on('unload', function() {
         if (timer) {
             clearInterval(timer);
