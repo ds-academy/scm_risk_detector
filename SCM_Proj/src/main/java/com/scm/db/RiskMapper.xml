@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scm.db.RiskMapper"> <!-- 네임스페이스 수정 -->
+
+ <select id="getRiskByCompany" parameterType="String" resultType="com.scm.model.RiskDTO">
+    SELECT PREDICT_DATE, RISK_SCORE 
+    FROM RISK
+    WHERE COMPANY_CODE = #{companyCode}
+    ORDER BY PREDICT_DATE DESC
+    LIMIT 8;
+</select>
+
+</mapper>

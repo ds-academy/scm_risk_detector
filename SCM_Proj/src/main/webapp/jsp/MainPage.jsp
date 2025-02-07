@@ -142,51 +142,42 @@
             }
         });
 
+        function fetchSuppliesAndDisplay(map) {
+            fetch('<%=request.getContextPath()%>/supplies')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(supply => {
+                        const marker = new google.maps.Marker({
+                            position: { lat: parseFloat(supply.LAT), lng: parseFloat(supply.LON) },
+                            map: map,
+                            title: supply.PRODUCT
+                        });
+
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `
+                                <h3>${supply.PRODUCT}</h3>
+                                <p>위치: ${supply.LOC_NAME}</p>
+                                <p>주소: ${supply.ADDRESS}</p>
+                                <p>비율: ${supply.RATIO}%</p>
+                            `
+                        });
+
+                        marker.addListener('click', () => {
+                            infoWindow.open(map, marker);
+                        });
+                    });
+                })
+                .catch(error => console.error('Error fetching supplies:', error));
+        }
+
         function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
+            const mapOptions = {
                 center: { lat: 37.5665, lng: 126.9780 },
-                zoom: 2,
-                styles: [
-                    { featureType: "all", elementType: "labels.text.fill", stylers: [{ color: "#191F28" }] },
-                    { featureType: "all", elementType: "labels.text.stroke", stylers: [{ color: "#ffffff" }] },
-                    { featureType: "water", elementType: "geometry", stylers: [{ color: "#E5E8EB" }] }
-                ]
-            });
+                zoom: 5
+            };
+            const map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-            const nodes = [
-                { lat: 40.7128, lng: -74.0060, label: "New York" },
-                { lat: 51.5074, lng: -0.1278, label: "London" },
-                { lat: 35.6895, lng: 139.6917, label: "Tokyo" },
-                { lat: 37.5665, lng: 126.9780, label: "Seoul" },
-                { lat: -33.8688, lng: 151.2093, label: "Sydney" }
-            ];
-
-            nodes.forEach(node => {
-                new google.maps.Marker({
-                    position: { lat: node.lat, lng: node.lng },
-                    map: map,
-                    label: { text: node.label, color: "black", fontSize: "12px" }
-                });
-            });
-
-            const edges = [
-                { from: nodes[0], to: nodes[1] },
-                { from: nodes[1], to: nodes[2] },
-                { from: nodes[2], to: nodes[3] },
-                { from: nodes[3], to: nodes[4] },
-                { from: nodes[4], to: nodes[0] }
-            ];
-
-            edges.forEach(edge => {
-                new google.maps.Polyline({
-                    path: [edge.from, edge.to],
-                    geodesic: true,
-                    strokeColor: "#435ebe",
-                    strokeOpacity: 1.0,
-                    strokeWeight: 3,
-                    map: map
-                });
-            });
+            fetchSuppliesAndDisplay(map);
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfIo_r6F31jWYr0FF1W_iLkgwYlDPPxzw&callback=initMap" async defer></script>

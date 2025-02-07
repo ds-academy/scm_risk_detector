@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.scm.db.StockMapper">
 
-    <!-- ✅ 회사 코드별 주식 데이터 조회 -->
-    <select id="getStockByCompany" parameterType="String" resultType="com.scm.model.StockDTO">
-        SELECT * FROM STOCK_PRICE WHERE company_code = #{companyCode} ORDER BY date DESC
-    </select>
-
-    <!-- ✅ 특정 날짜의 주가 데이터 조회 -->
-    <select id="getStockByDate" parameterType="map" resultType="com.scm.model.StockDTO">
-        SELECT * FROM STOCK_PRICE WHERE company_code = #{COMPANY_CODE} AND date = #{DATE}
+    <!-- 회사 코드별 주식 종가 데이터 조회 (그래프용) -->
+    <select id="getClosePriceByCompany" parameterType="String" resultType="com.scm.model.StockDTO">
+        SELECT CLOSE, DATE
+        FROM STOCK_PRICE
+        WHERE COMPANY_CODE = #{COMPANY_CODE}
+        ORDER BY DATE DESC
+        LIMIT 8;
     </select>
 
 </mapper>

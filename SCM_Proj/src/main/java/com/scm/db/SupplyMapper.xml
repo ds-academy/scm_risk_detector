@@ -4,14 +4,11 @@
 
 <!-- Supply 데이터 조회 (전체 목록) -->
 <select id="getAllSupplies" resultType="com.scm.model.SupplyDTO">
-	SELECT * FROM supply;
+	SELECT 
+		SCM_IDX, SCM_KEY, PRODUCT, LOC_NAME, ISO,
+		ADDRESS, STATE, LAT, LON
+	FROM 
+		SUPPLY_STOCK;
 </select>
-
-
-
-
-
-
-
 
 </mapper>
