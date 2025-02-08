@@ -11,10 +11,10 @@ public class RiskDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    // 회사 코드로 위험도 데이터 조회
+    // 회사 코드로 리스크 데이터 가져오기
     public List<RiskDTO> getRiskScoreByCompany(String companyCode) {
-    	try (SqlSession session = sqlSessionFactory.openSession()) {
-    		return session.selectList("com.scm.db.RiskMapper.getRiskByCompany", companyCode);		
-    	}
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.selectList("com.scm.db.RiskMapper.getRiskByCompany", companyCode);
+        }
     }
 }

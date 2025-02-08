@@ -6,7 +6,6 @@ import com.scm.model.RiskDTO;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.session.SqlSessionManager;
 
 import com.google.gson.Gson;
 
@@ -15,9 +14,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(urlPatterns = {"/risk", "/risk-page"})
 public class RiskController extends HttpServlet {
@@ -52,14 +55,26 @@ public class RiskController extends HttpServlet {
                 return;
             }
 
-            List<RiskDTO> riskScores = riskDAO.getRiskScoreByCompany(companyCode);
-            
+            // RiskDAO에서 회사 코드로 리스크 데이터를 가져오기
+            List<RiskDTO> riskList = riskDAO.getRiskScoreByCompany(companyCode);
+
+            // BigDecimal을 double로 변환하여 JSON 형태로 반환
+            List<Map<String, Object>> riskData = new ArrayList<>();
+            for (RiskDTO risk : riskList) {
+                Map<String, Object> riskMap = new HashMap<>();
+                riskMap.put("RISK_SCORE", risk.getRISK_SCORE() != null ? risk.getRISK_SCORE().doubleValue() : 0.0);
+                riskMap.put("PREDICT_DATE", risk.getPREDICT_DATE());
+                riskData.add(riskMap);
+            }
+
+            // JSON 변환 및 응답 설정
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            
+
             Gson gson = new Gson();
-            String jsonResponse = gson.toJson(riskScores);
+            String jsonResponse = gson.toJson(riskData);
             response.getWriter().write(jsonResponse);
+
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "서버 오류가 발생했습니다.");
