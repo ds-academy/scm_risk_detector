@@ -41,7 +41,7 @@ public class RiskController extends HttpServlet {
         String pathInfo = request.getServletPath();
         
         if ("/risk-page".equals(pathInfo)) {
-            request.getRequestDispatcher("/html/SecondPage.html").forward(request, response);
+            request.getRequestDispatcher("html/SecondPage.html").forward(request, response);
             return;
         }
         
