@@ -13,19 +13,8 @@ public class RiskDAO {
 
     // 회사 코드로 위험도 데이터 조회
     public List<RiskDTO> getRiskScoreByCompany(String companyCode) {
-        int retryCount = 3;
-        while (retryCount > 0) {
-            try (SqlSession session = sqlSessionFactory.openSession()) {
-                return session.selectList("com.scm.db.RiskMapper.getRiskByCompany", companyCode);
-            } catch (Exception e) {
-                e.printStackTrace();
-                retryCount--;
-                if (retryCount == 0) {
-                    throw new RuntimeException("데이터베이스 연결 실패: " + e.getMessage());
-                }
-            }
-        }
-        return null;
+    	try (SqlSession session = sqlSessionFactory.openSession()) {
+    		return session.selectList("com.scm.db.RiskMapper.getRiskByCompany", companyCode);		
+    	}
     }
-
 }

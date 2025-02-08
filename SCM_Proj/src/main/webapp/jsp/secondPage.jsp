@@ -259,39 +259,59 @@
     }
 
     function createRiskChart(companyCode) {
-        console.log("선택된 회사 코드:", companyCode);
+        let spData = companyCode.split("/");
+        console.log("회사 코드:", spData[0], "회사 이름:", spData[1]);
 
         $.ajax({
-            url: '/risk',  // 리스크 데이터를 가져오는 엔드포인트
+            url: '/com.SCM_Pro.proj/risk',
             method: 'GET',
-            data: { companyCode: companyCode },  // 회사 코드 전송
+            data: { companyCode: spData[0] },
             dataType: 'json',
             success: function(data) {
+                console.log("받아온 데이터:", data);
+
                 if (!data || data.length === 0) {
                     console.warn("리스크 데이터가 없습니다.");
+                    document.querySelector('.risk-section .stock-price').textContent = '위험도 데이터 없음';
                     return;
                 }
 
-                const riskScores = data.map(item => parseFloat(item.riskScore || 0));  // Null 값 처리
-                const predictDates = data.map(item => item.predictDate);
+                // null 값 필터링 및 리스크 점수 배열 생성
+                const riskScores = data
+                    .filter(item => item && item.RISK_SCORE != null)
+                    .map(item => parseFloat(item.RISK_SCORE));  // BigDecimal 값을 float로 변환
+                
+                const predictDates = data
+                    .filter(item => item && item.PREDICT_DATE)
+                    .map(item => new Date(item.PREDICT_DATE));  // 날짜 객체로 변환
 
+                if (riskScores.length === 0 || predictDates.length === 0) {
+                    console.error("유효한 리스크 데이터가 부족합니다.");
+                    document.querySelector('.risk-section .stock-price').textContent = '유효한 위험도 데이터 없음';
+                    return;
+                }
+
+                // 평균 리스크 점수 계산
                 const averageRisk = (riskScores.reduce((sum, score) => sum + score, 0) / riskScores.length).toFixed(2);
                 console.log("평균 리스크 점수:", averageRisk);
 
                 const ctx = document.getElementById('riskChart').getContext('2d');
-                if (window.riskChart) {
-                    window.riskChart.destroy();
+
+                // 이전 차트가 존재하면 파괴
+                if (chart) {
+                    chart.destroy();
                 }
 
-                window.riskChart = new Chart(ctx, {
+                // 차트 생성
+                chart = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: predictDates,
                         datasets: [{
                             label: '리스크 점수',
                             data: riskScores,
-                            borderColor: '#FF3B3B',
-                            backgroundColor: 'rgba(255, 59, 59, 0.1)',
+                            borderColor: '#326CF9',
+                            backgroundColor: 'rgba(50, 108, 249, 0.1)',
                             tension: 0.4,
                             fill: true
                         }]
@@ -303,26 +323,33 @@
                             legend: { display: false },
                             title: {
                                 display: true,
-                                text: `평균 리스크 점수: ${averageRisk}`
+                                text: `${spData[1]} 평균 리스크 점수: ${averageRisk}%`
                             }
                         },
                         scales: {
+                            x: {
+                                type: 'time',  // 시간 축으로 설정
+                                time: {
+                                    unit: 'day',
+                                    displayFormats: {
+                                        day: 'yyyy-MM-dd'
+                                    }
+                                },
+                                grid: { display: false }
+                            },
                             y: {
                                 beginAtZero: false,
                                 ticks: {
                                     callback: function(value) {
-                                        return value.toFixed(2);
-                                    }
+                                        return value.toFixed(2) + '%';  // Y축 값에 % 추가
+                                    }             
                                 }
-                            },
-                            x: {
-                                grid: { display: false }
                             }
                         }
                     }
                 });
 
-                // 위험도 표시 업데이트
+                // 위험도 표시 업데이트 
                 document.querySelector('.risk-section .stock-price').textContent = `위험도: ${averageRisk}%`;
             },
             error: function(xhr, status, error) {
@@ -330,6 +357,8 @@
             }
         });
     }
+
+
 
         </script>
 </body>

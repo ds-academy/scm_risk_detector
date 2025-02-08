@@ -11,16 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RiskDTO {
-    private Integer riskIdx;           // RISK_IDX
-    private String companyCode;        // COMPANY_CODE
-    private String modelName;          // MODEL_NAME
-    private String analysisResult;     // ANALYSIS_RESULT
-    private Date testDate;             // TEST_DATE
-    private Date predictDate;          // PREDICT_DATE
-    private BigDecimal riskScore;      // RISK_SCORE
+    private Integer RISK_IDX;           // RISK_IDX
+    private String COMPANY_CODE;        // COMPANY_CODE
+    private String MODEL_NAME;          // MODEL_NAME
+    private String ANALYSIS_RESULT;     // ANALYSIS_RESULT
+    private Date TEST_DATE;             // TEST_DATE
+    private Date PREDICT_DATE;          // PREDICT_DATE
+    private BigDecimal RISK_SCORE;      // RISK_SCORE
 
-    // Null-safe getter
-    public BigDecimal getRiskScore() {
-        return riskScore != null ? riskScore : BigDecimal.ZERO;
-    }
+    
 }
