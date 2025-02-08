@@ -11,4 +11,47 @@
         LIMIT 8;
     </select>
 
+	<select id="getKospiClose" resultType="double">
+    SELECT CLOSE
+    FROM STOCK_PRICE
+    WHERE COMPANY_CODE = '^TNX'
+    ORDER BY DATE DESC
+    LIMIT 1
+</select>
+
+<select id="getKosdaqClose" resultType="double">
+    SELECT CLOSE
+    FROM STOCK_PRICE
+    WHERE COMPANY_CODE = '^VIX'
+    ORDER BY DATE DESC
+    LIMIT 1
+</select>
+
+<select id="getSP500Close" resultType="double">
+    SELECT CLOSE
+    FROM STOCK_PRICE
+    WHERE COMPANY_CODE = '^IRX'
+    ORDER BY DATE DESC
+    LIMIT 1
+</select>
+
+
+    <!-- 코스피 지수 최근 7일 -->
+    <select id="getKospiIndex" resultType="com.scm.model.StockDTO">
+        SELECT CLOSE, DATE
+        FROM STOCK_PRICE
+        WHERE COMPANY_CODE = '^TNX'
+        ORDER BY DATE DESC
+        LIMIT 7
+    </select>
+
+    <!-- 거래량 최근 7일 -->
+    <select id="getKospiVolume" resultType="com.scm.model.StockDTO">
+        SELECT VOLUME, DATE
+        FROM STOCK_PRICE
+        WHERE COMPANY_CODE = '^TNX'
+        ORDER BY DATE DESC
+        LIMIT 7
+    </select>
+	
 </mapper>
