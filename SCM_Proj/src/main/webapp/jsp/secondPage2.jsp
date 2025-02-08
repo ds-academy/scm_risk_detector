@@ -260,7 +260,7 @@
 
     function createRiskChart(companyCode) {
         let spData = companyCode.split("/");
-        console.log("회사 코드:", spData[0], "회사 이름:", spData[1]);
+        console.log(spData);
 
         $.ajax({
             url: '/com.SCM_Pro.proj/risk',

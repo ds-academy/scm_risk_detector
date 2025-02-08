@@ -1,0 +1,100 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPAndTech - 마이페이지</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/Mypage.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i> SPAndTech
+        </div>
+        <div class="nav-links">
+            <a href="#">홈</a>
+            <a href="#" class="active">마이페이지</a>
+            <a href="#">설정</a>
+            <a href="#">리스크</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="종목명, 종목코드 검색">
+        </div>
+        <button class="btn-login">로그아웃</button>
+    </nav>
+
+    <main class="main-content">
+        <section class="profile-section">
+            <div class="profile-header">
+                <div class="profile-info">
+                    <div class="profile-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-details">
+                        <h2>홍길동 님</h2>
+                        <p>hong@example.com</p>
+                    </div>
+                </div>
+                <button class="btn-edit">프로필 수정</button>
+            </div>
+        </section>
+
+        <section class="settings-section">
+            <h2 class="section-title">알림 설정</h2>
+            <div class="settings-grid">
+                <div class="setting-card">
+                    <div class="setting-header">
+                        <h3>리스크 알림</h3>
+                        <label class="switch">
+                            <input type="checkbox" id="riskAlert" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <p class="setting-description">고위험 종목에 대한 실시간 알림을 받습니다.</p>
+                </div>
+                <div class="setting-card">
+                    <div class="setting-header">
+                        <h3>가격 변동 알림</h3>
+                        <label class="switch">
+                            <input type="checkbox" id="priceAlert">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <p class="setting-description">관심 종목의 가격 변동 알림을 받습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="watchlist-section">
+            <h2 class="section-title">관심 종목</h2>
+            <div class="watchlist-header">
+                <select class="stock-select" id="stockSelect">
+                    <option value="">종목 선택</option>
+                    <option value="samsung">삼성전자</option>
+                    <option value="hyundai">현대차</option>
+                    <option value="sk">SK하이닉스</option>
+                    <option value="naver">네이버</option>
+                    <option value="kakao">카카오</option>
+                    <option value="lg">LG전자</option>
+                    <option value="kia">기아</option>
+                    <option value="posco">POSCO</option>
+                </select>
+            </div>
+            <div class="watchlist-container">
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">삼성전자</span>
+                        <button class="btn-remove"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="stock-price">74,300</div>
+                    <div class="stock-change positive">+1.23%</div>
+                    <div class="risk-level low">저위험</div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
