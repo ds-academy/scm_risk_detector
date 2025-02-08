@@ -11,7 +11,8 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="../jsp/Mainpage2.jsp" class="logo">
+    	
+        <a href="../jsp/secondPage.jsp" class="logo">
             <i class="fas fa-leaf"></i> SPAndTech
         </a>
     </nav>
