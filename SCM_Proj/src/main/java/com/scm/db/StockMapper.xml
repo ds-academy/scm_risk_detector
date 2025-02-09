@@ -40,7 +40,7 @@
     <select id="getKospiIndex" resultType="com.scm.model.StockDTO">
         SELECT CLOSE, DATE
         FROM STOCK_PRICE
-        WHERE COMPANY_CODE = '^TNX'
+        WHERE COMPANY_CODE = 'KS11'
         ORDER BY DATE DESC
         LIMIT 7
     </select>
@@ -49,7 +49,7 @@
     <select id="getKospiVolume" resultType="com.scm.model.StockDTO">
         SELECT VOLUME, DATE
         FROM STOCK_PRICE
-        WHERE COMPANY_CODE = '^TNX'
+        WHERE COMPANY_CODE = 'KQ11'
         ORDER BY DATE DESC
         LIMIT 7
     </select>
