@@ -69,11 +69,6 @@
         });
     }
 
-    
-    
-    
-    
-    
  // 📈 차트 초기화 (코스피 지수 및 거래량)
     function initializeCharts() {
         fetchKospiIndex();  // 코스피 지수 데이터 요청

@@ -124,19 +124,77 @@
         });
     }
 
+ // 📈 차트 초기화 (코스피 지수 및 거래량)
     function initializeCharts() {
+        fetchKospiIndex();  // 코스피 지수 데이터 요청
+        fetchKospiVolume(); // 코스피 거래량 데이터 요청
+    }
+
+    // 📌 코스피 지수 데이터 가져오기
+    function fetchKospiIndex() {
+        $.ajax({
+            url: '<%= request.getContextPath() %>/stocks',
+            method: 'GET',
+            data: { action: 'kospiIndex' },
+            dataType: 'json',
+            success: function(data) {
+                if (!data || data.length === 0) {
+                    console.warn("🚨 코스피 지수 데이터 없음");
+                    return;
+                }
+
+                const labels = data.map(item => new Date(item.DATE).toLocaleDateString());
+                const closePrices = data.map(item => parseFloat(item.CLOSE));
+
+                drawKospiChart(labels.reverse(), closePrices.reverse());
+            },
+            error: function(xhr, status, error) {
+                console.error("❌ 코스피 지수 데이터 가져오기 실패:", xhr.status, error);
+            }
+        });
+    }
+
+    // 📊 코스피 거래량 데이터 가져오기
+    function fetchKospiVolume() {
+        $.ajax({
+            url: '<%= request.getContextPath() %>/stocks',
+            method: 'GET',
+            data: { action: 'kospiVolume' },
+            dataType: 'json',
+            success: function(data) {
+                if (!data || data.length === 0) {
+                    console.warn("🚨 코스피 거래량 데이터 없음");
+                    return;
+                }
+
+                const labels = data.map(item => new Date(item.DATE).toLocaleDateString());
+                const volumes = data.map(item => parseInt(item.VOLUME));
+
+                drawKospiVolumeChart(labels.reverse(), volumes.reverse());
+            },
+            error: function(xhr, status, error) {
+                console.error("❌ 코스피 거래량 데이터 가져오기 실패:", xhr.status, error);
+            }
+        });
+    }
+
+    // 📈 코스피 지수 그래프 그리기
+    function drawKospiChart(labels, dataPoints) {
+        console.log("코스피 지수 데이터:", labels, dataPoints);
+
         const ctx1 = document.getElementById('stockChart1').getContext('2d');
+
         new Chart(ctx1, {
             type: 'line',
             data: {
-                labels: ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+                labels: labels,
                 datasets: [{
-                    label: '코스피',
-                    data: [2650, 2655, 2658, 2654, 2657, 2659, 2658],
+                    label: '코스피 지수',
+                    data: dataPoints,
                     borderColor: '#326CF9',
                     tension: 0.4,
                     borderWidth: 2,
-                    pointRadius: 0,
+                    pointRadius: 3,
                     fill: false
                 }]
             },
@@ -145,23 +203,29 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: { display: false },
-                    title: { display: true, text: '코스피 지수' }
+                    title: { display: true, text: '코스피 지수 (최근 7일)' }
                 },
                 scales: {
-                    x: { grid: { display: false } },
-                    y: { grid: { color: '#E5E8EB' } }
+                    x: { grid: { display: false }, title: { display: true, text: '날짜' }},
+                    y: { grid: { color: '#E5E8EB' }, title: { display: true, text: '지수' }}
                 }
             }
         });
+    }
+
+    // 📊 코스피 거래량 그래프 그리기
+    function drawKospiVolumeChart(labels, volumes) {
+        console.log("코스피 거래량 데이터:", labels, volumes);
 
         const ctx2 = document.getElementById('stockChart2').getContext('2d');
+
         new Chart(ctx2, {
             type: 'bar',
             data: {
-                labels: ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+                labels: labels,
                 datasets: [{
-                    label: '거래량',
-                    data: [1200, 1500, 1300, 1400, 1600, 1450, 1350],
+                    label: '코스피 거래량',
+                    data: volumes,
                     backgroundColor: 'rgba(50, 108, 249, 0.2)',
                     borderColor: '#326CF9',
                     borderWidth: 1
@@ -172,16 +236,15 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: { display: false },
-                    title: { display: true, text: '거래량' }
+                    title: { display: true, text: '코스피 거래량 (최근 7일)' }
                 },
                 scales: {
-                    x: { grid: { display: false } },
-                    y: { grid: { color: '#E5E8EB' } }
+                    x: { grid: { display: false }, title: { display: true, text: '날짜' }},
+                    y: { grid: { color: '#E5E8EB' }, title: { display: true, text: '거래량' }}
                 }
             }
         });
     }
-
     let map;
     let markers = [];
     let polylines = [];
