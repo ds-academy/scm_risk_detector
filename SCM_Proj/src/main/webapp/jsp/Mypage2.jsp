@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPAndTech - 프로필 수정</title>
+    <title>MQAndTech - 프로필 수정</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/Mainpage.css">
     <link rel="stylesheet" href="../css/Mypage2.css">
@@ -13,7 +13,7 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <i class="fas fa-leaf"></i> SPAndTech
+            <i class="fas fa-leaf"></i> MQAndTech
         </div>
         <div class="nav-links">
             <a href="#">홈</a>

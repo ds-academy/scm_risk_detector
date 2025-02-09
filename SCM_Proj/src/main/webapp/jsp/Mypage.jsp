@@ -1,24 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%
-
-
-
-%>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPAndTech - 마이페이지</title>
+    <title>MQAndTech - 마이페이지</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/Mypage.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">
-            <i class="fas fa-leaf"></i> SPAndTech
+            <i class="fas fa-leaf"></i> MQAndTech
         </div>
         <div class="nav-links">
             <a href="#">홈</a>

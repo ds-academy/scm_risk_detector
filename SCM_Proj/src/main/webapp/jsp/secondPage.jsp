@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPAndTech</title>
+<title>MQAndTech</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="../css/SecondPage.css">
@@ -25,7 +25,7 @@
 <body>
    <nav class="navbar">
       <div class="logo">
-         <i class="fas fa-leaf"></i> SPAndTech
+         <i class="fas fa-leaf"></i> MQAndTech
       </div>
       <div class="nav-links">
          <a href="#">홈</a> 
@@ -67,14 +67,14 @@
       <section class="chart-section">
          <div class="stock-info">
             <select id="stockSelector" class="stock-selector">
-               <option value="004370">논심 (004370)</option>
+               <option value="004370">농심 (004370)</option>
                <option value="005380">현대자동차 (005380)</option>
                <option value="005930">삼성전자 (005930)</option>
                <option value="034220">LG디스플레이 (034220)</option>
-               <option value="051900">LG생화경과(051900)</option>
+               <option value="051900">LG생활과학(051900)</option>
                <option value="051910">LG화학 (051910)</option>
                <option value="073240">금호타이어 (073240)</option>
-               <option value="267260">HD현대일렉틱 (267260)</option>
+               <option value="267260">HD현대일렉트릭 (267260)</option>
             </select>
             <div class="stock-price">72,300원</div>
          </div>
@@ -85,14 +85,14 @@
       <section class="risk-section">
          <div class="stock-info">
             <select id="riskSelector" class="stock-selector">
-               <option value="004370">논심 (004370)</option>
+               <option value="004370">농심 (004370)</option>
                <option value="005380">현대자동차 (005380)</option>
                <option value="005930">삼성전자 (005930)</option>
                <option value="034220">LG디스플레이 (034220)</option>
-               <option value="051900">LG생화경과(051900)</option>
+               <option value="051900">LG생활과학(051900)</option>
                <option value="051910">LG화학 (051910)</option>
                <option value="073240">금호타이어 (073240)</option>
-               <option value="267260">HD현대일렉틱 (267260)</option>
+               <option value="267260">HD현대일렉트릭 (267260)</option>
             </select>
             <div class="risk-score">위험도: 65%</div>
          </div>

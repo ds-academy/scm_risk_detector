@@ -5,15 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPAndTech - 로그인/회원가입</title>
+    <title>MQAndTech - 로그인/회원가입</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/Login.css">
 </head>
 <body>
     <nav class="navbar">
     	
-        <a href="../jsp/secondPage.jsp" class="logo">
-            <i class="fas fa-leaf"></i> SPAndTech
+        <a href="../jsp/MainPage.jsp" class="logo">
+            <i class="fas fa-leaf"></i> MQAndTech
         </a>
     </nav>
 
@@ -21,7 +21,7 @@
         <div class="auth-box">
             <div class="auth-header">
                 <h1>환영합니다</h1>
-                <p>SPAndTech와 함께 스마트한 투자를 시작하세요</p>
+                <p>MQAndTech와 함께 스마트한 투자를 시작하세요</p>
             </div>
 
             <div class="auth-tabs">

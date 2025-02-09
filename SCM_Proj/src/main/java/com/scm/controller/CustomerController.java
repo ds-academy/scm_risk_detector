@@ -53,7 +53,7 @@ public class CustomerController extends HttpServlet {
         if (loggedInUser != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", loggedInUser);
-            response.sendRedirect(request.getContextPath() + "/jsp/secondPage.jsp"); 
+            response.sendRedirect(request.getContextPath() + "/jsp/MainPage.jsp"); 
         } else {
             request.setAttribute("loginError", "로그인 실패: 아이디 또는 비밀번호가 틀립니다.");
             request.getRequestDispatcher("/jsp/Login.jsp").forward(request, response);
