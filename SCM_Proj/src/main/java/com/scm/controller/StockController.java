@@ -50,6 +50,16 @@ public class StockController extends HttpServlet {
                         response.getWriter().write(gson.toJson(sp500Close));
                         break;
 
+                    case "kospiIndex":  // 📈 코스피 지수 데이터 요청
+                        List<StockDTO> kospiIndexData = stockDAO.getKospiIndex();
+                        response.getWriter().write(gson.toJson(kospiIndexData));
+                        break;
+
+                    case "kospiVolume":  // 📊 코스피 거래량 데이터 요청
+                        List<StockDTO> kospiVolumeData = stockDAO.getKospiVolume();
+                        response.getWriter().write(gson.toJson(kospiVolumeData));
+                        break;    
+                       
                     default:
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action parameter.");
                         System.out.println("Invalid action parameter: " + action);
