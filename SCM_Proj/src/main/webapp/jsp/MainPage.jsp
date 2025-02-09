@@ -92,6 +92,9 @@
     </main>
 
     <script>
+    
+   
+    
                // 차트 초기화 - 코스피 지수
                const ctx1 = document.getElementById('stockChart1').getContext('2d');
         new Chart(ctx1, {

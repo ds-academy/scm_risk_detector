@@ -23,6 +23,7 @@ public class StockController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         stockDAO = new StockDAO(sessionFactory);
         String action = request.getParameter("action");
+        String companyCode = request.getParameter("companyCode");
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -53,9 +54,23 @@ public class StockController extends HttpServlet {
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action parameter.");
                         System.out.println("Invalid action parameter: " + action);
                 }
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action parameter required.");
-                System.out.println("Action parameter missing.");
+            } 
+            // 📌 companyCode가 있는 경우 주가 데이터 반환
+            else if (companyCode != null && !companyCode.isEmpty()) {
+                System.out.println("Fetching stock data for company code: " + companyCode);
+                List<StockDTO> stockData = stockDAO.getClosePriceByCompany(companyCode);
+                
+                if (stockData.isEmpty()) {
+                    response.getWriter().write(gson.toJson("No stock data available."));
+                    System.out.println("No stock data found for company code: " + companyCode);
+                } else {
+                    response.getWriter().write(gson.toJson(stockData));
+                }
+            } 
+            // 📌 action과 companyCode 둘 다 없을 때 에러 처리
+            else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action or companyCode parameter required.");
+                System.out.println("Action and companyCode parameters missing.");
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -64,3 +79,5 @@ public class StockController extends HttpServlet {
         }
     }
 }
+
+
