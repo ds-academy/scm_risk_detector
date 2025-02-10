@@ -86,5 +86,6 @@ document.querySelectorAll('.nav-links a').forEach(link => {
             const page = this.textContent;
             showMessage(`${page} 페이지로 이동합니다.`);
         }
+		
     });
 });

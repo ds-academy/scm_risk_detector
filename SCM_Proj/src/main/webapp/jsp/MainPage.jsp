@@ -1,127 +1,121 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.*" %>
-<%@ page import="com.scm.model.StockDAO" %>
-<%@ page import="com.scm.model.CustomerDTO" %>
+<%@page import="java.io.IOException"%>
+<%@page import="com.scm.controller.NewsFetcher"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.scm.model.StockDAO"%>
+<%@ page import="com.scm.model.CustomerDTO"%>
 <%
-	HttpSession userSession = request.getSession(false);
-	CustomerDTO user = (CustomerDTO) session.getAttribute("user");
-	boolean isLoggedIn = (user != null);
-	
-	  if (user == null) {
-          response.sendRedirect("Login.jsp");
-          return;
-      }
+HttpSession userSession = request.getSession(false);
+CustomerDTO user = (CustomerDTO) session.getAttribute("user");
+boolean isLoggedIn = (user != null);
+
+if (user == null) {
+	response.sendRedirect("Login.jsp");
+	return;
+}
 %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MQAndTech</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="../css/Mainpage2.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MQAndTech</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="../css/Mainpage2.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-leaf"></i> MQAndTech
-        </div>
-        <div class="nav-links">
-            <a href="MainPage.jsp">홈</a>
-		    <a href="Mypage.jsp">마이페이지</a>
-		    <a href="secondPage.jsp">리스크</a>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="종목명, 종목코드 검색">
-        </div>
-        <!-- 로그인/로그아웃 버튼 표시 -->
-        <button class="btn-login">
-            <%= isLoggedIn ? "로그아웃" : "로그인" %>
-        </button>
-    </nav>
+	<nav class="navbar">
+		<div class="logo">
+			<i class="fas fa-leaf"></i> MQAndTech
+		</div>
+		<div class="nav-links">
+			<a href="MainPage.jsp">홈</a> <a href="Mypage.jsp">마이페이지</a> <a
+				href="secondPage.jsp">리스크</a>
+		</div>
+		<div class="search-bar">
+			<input type="text" placeholder="종목명, 종목코드 검색">
+		</div>
+		<!-- 로그인/로그아웃 버튼 표시 -->
+		<button class="btn-login">
+			<%=isLoggedIn ? "로그아웃" : "로그인"%>
+		</button>
+	</nav>
 
-    <main class="main-content">
-        <section class="market-summary">
-            <h2 class="section-title">실시간 시장 동향</h2>
-            <div class="stock-grid">
-                <div class="stock-card">
-                    <div class="stock-name">코스피</div>
-                    <div class="stock-price" id="kospi-price">2,658.35</div>
-                </div>
-                <div class="stock-card">
-                    <div class="stock-name">코스닥</div>
-                    <div class="stock-price" id="kosdaq-price">865.62</div>
-                </div>
-                <div class="stock-card">
-                    <div class="stock-name">S&P 500</div>
-                    <div class="stock-price" id="sp500-price">4,890.97</div>
-                </div>
-            </div>
-            <div class="charts-container">
-                <div class="chart-wrapper">
-                    <canvas id="stockChart1"></canvas>
-                </div>
-                <div class="chart-wrapper">
-                    <canvas id="stockChart2"></canvas>
-                </div>
-            </div>
-        </section>
+	<main class="main-content">
+		<section class="market-summary">
+			<h2 class="section-title">실시간 시장 동향</h2>
+			<div class="stock-grid">
+				<div class="stock-card">
+					<div class="stock-name">코스피</div>
+					<div class="stock-price" id="kospi-price">2,658.35</div>
+				</div>
+				<div class="stock-card">
+					<div class="stock-name">코스닥</div>
+					<div class="stock-price" id="kosdaq-price">865.62</div>
+				</div>
+				<div class="stock-card">
+					<div class="stock-name">S&P 500</div>
+					<div class="stock-price" id="sp500-price">4,890.97</div>
+				</div>
+			</div>
+			<div class="charts-container">
+				<div class="chart-wrapper">
+					<canvas id="stockChart1"></canvas>
+				</div>
+				<div class="chart-wrapper">
+					<canvas id="stockChart2"></canvas>
+				</div>
+			</div>
+		</section>
 
-        <section class="news-feed">
-            <h2 class="section-title">실시간 뉴스</h2>
-            <div class="news-item">
-                <div class="news-title">글로벌 증시 상승세, 미 연준 금리 동결 전망에 투자심리 개선</div>
-                <div class="news-meta">5분 전 • 경제신문</div>
-            </div>
-            <div class="news-item">
-                <div class="news-title">AI 기업들 실적 발표 앞두고 기술주 강세</div>
-                <div class="news-meta">15분 전 • 테크뉴스</div>
-            </div>
-            <div class="news-item">
-                <div class="news-title">국내 주요기업 실적 전망치 상향 조정</div>
-                <div class="news-meta">30분 전 • 투자저널</div>
-            </div>
-        </section>
+		<section class="news-feed">
+    <h2 class="section-title">실시간 뉴스</h2>
+    <ul id="news-list">
+        <!-- 여기에 뉴스 항목이 동적으로 추가됩니다 -->
+    </ul>
+</section>
 
-        <section class="maps-section">
-            <h2 class="section-title">글로벌 마켓 현황</h2>
-            <div class="company-selector">
-                <select id="companySelect" onchange="updateCompanyInfo()">
-                    <option value="">기업을 선택하세요</option>
-                    <option value="004370">농심(004370)</option>
-                    <option value="005380">현대자동차(005380)</option>
-                    <option value="005930">삼성전자(005930)</option>
-                    <option value="034220">LG 디스플레이(034220)</option>
-                    <option value="051910">LG 화학(051910)</option>
-                    <option value="051900">LG 생활건강(051900)</option>
-                    <option value="073240">금호타이어(073240)</option>
-                    <option value="267260">HD 현대일렉트릭(267260)</option>
-                </select>
-            </div>
-            <div id="map" style="height: 500px;"></div>
-        </section>
-    </main>
+		<section class="maps-section">
+			<h2 class="section-title">글로벌 마켓 현황</h2>
+			<div class="company-selector">
+				<select id="companySelect" onchange="updateCompanyInfo()">
+					<option value="">기업을 선택하세요</option>
+					<option value="004370">농심(004370)</option>
+					<option value="005380">현대자동차(005380)</option>
+					<option value="005930">삼성전자(005930)</option>
+					<option value="034220">LG 디스플레이(034220)</option>
+					<option value="051910">LG 화학(051910)</option>
+					<option value="051900">LG 생활건강(051900)</option>
+					<option value="073240">금호타이어(073240)</option>
+					<option value="267260">HD 현대일렉트릭(267260)</option>
+				</select>
+			</div>
+			<div id="map" style="height: 500px;"></div>
+		</section>
+	</main>
 
 	<script>
 	 $(document).ready(function() {
          $('.btn-login').click(function() {
-             var isLoggedIn = '<%= isLoggedIn %>' === 'true';
+             var isLoggedIn = '<%=isLoggedIn%>' === 'true';
 
              if (isLoggedIn) {
                  // 로그아웃 처리
-                 window.location.href = '<%= request.getContextPath() %>/auth?action=logout';
+                 window.location.href = '<%=request.getContextPath()%>/auth?action=logout';
              } else {
                  // 로그인 페이지로 이동
-                 window.location.href = '<%= request.getContextPath() %>/jsp/Login.jsp';
+                 window.location.href = '<%=request.getContextPath()%>/jsp/Login.jsp';
              }
          });
      });
 	</script>
 
-    <script>
+	<script>
     $(document).ready(function() {
         fetchMarketData();
         setInterval(fetchMarketData, 10000); // 10초마다 업데이트
@@ -136,7 +130,7 @@
     }
 
     function updatePrice(action, elementId) {
-        var contextPath = '<%= request.getContextPath() %>';
+        var contextPath = '<%=request.getContextPath()%>';
         var requestUrl = contextPath + '/stocks';
 
         $.ajax({
@@ -162,7 +156,7 @@
     // 📌 코스피 지수 데이터 가져오기
     function fetchKospiIndex() {
         $.ajax({
-            url: '<%= request.getContextPath() %>/stocks',
+            url: '<%=request.getContextPath()%>/stocks',
             method: 'GET',
             data: { action: 'kospiIndex' },
             dataType: 'json',
@@ -186,7 +180,7 @@
     // 📊 코스피 거래량 데이터 가져오기
     function fetchKospiVolume() {
         $.ajax({
-            url: '<%= request.getContextPath() %>/stocks',
+            url: '<%=request.getContextPath()%>/stocks',
             method: 'GET',
             data: { action: 'kospiVolume' },
             dataType: 'json',
@@ -274,6 +268,36 @@
             }
         });
     }
+    
+    $(document).ready(function() {
+        fetchLatestNews();  // 페이지 로드 시 뉴스 가져오기
+        setInterval(fetchLatestNews, 10000);  // 10초마다 자동 갱신
+
+        function fetchLatestNews() {
+            $.ajax({
+                url: '<%=request.getContextPath()%>/fetchNews',  // NewsServlet 호출
+                method: 'GET',
+                dataType: 'json',
+                success: function(newsList) {
+                    $('#news-list').empty();  // 기존 뉴스 항목 제거
+
+                    if (newsList.length === 0) {
+                        $('#news-list').append('<li class="news-item">새로운 뉴스가 없습니다.</li>');
+                        return;
+                    }
+
+                    newsList.forEach(function(news) {
+                        $('#news-list').append('<li class="news-item">' + news.text + '</li>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("❌ 뉴스 가져오기 실패:", xhr.status, error);
+                    $('#news-list').html('<li class="news-item">뉴스를 불러오는 중 오류가 발생했습니다.</li>');
+                }
+            });
+        }
+    });
+
     let map;
     let markers = [];
     let polylines = [];
@@ -468,8 +492,10 @@
         markers = [];
         polylines = [];
     }
-    </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfIo_r6F31jWYr0FF1W_iLkgwYlDPPxzw&callback=initMap" async defer></script>
+    </script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfIo_r6F31jWYr0FF1W_iLkgwYlDPPxzw&callback=initMap"
+		async defer></script>
 </body>
 </html>
