@@ -15,24 +15,30 @@
 <body>
     <%
         HttpSession userSession = request.getSession(false);
-        CustomerDTO user = (CustomerDTO) userSession.getAttribute("user");
-        boolean isLoggedIn = (user != null);  // 로그인 상태 확인
+        CustomerDTO user = null;
+        if (userSession != null) {
+            Object userObj = userSession.getAttribute("user");
+            if (userObj instanceof CustomerDTO) {
+                user = (CustomerDTO) userObj;
+            }
+        }
 
-        String userId = user.getUSER_ID();
-        String userName = user.getUSER_NAME();
-        String userEmail = user.getEMAIL();
-        String userPhone = user.getMOBILE();
+        boolean isLoggedIn = (user != null);
+
+        String userId = (user != null) ? user.getUSER_ID() : "";
+        String userName = (user != null) ? user.getUSER_NAME() : "";
+        String userEmail = (user != null) ? user.getEMAIL() : "";
+        String userPhone = (user != null) ? user.getMOBILE() : "";
     %>
 
     <nav class="navbar">
         <div class="logo">
-            <i class="fas fa-leaf"></i> SPAndTech
+            <i class="fas fa-leaf"></i> MQAndTech
         </div>
         <div class="nav-links">
-            <a href="Mainpage2.jsp">홈</a>
-            <a href="Mypage.jsp" class="active">마이페이지</a>
-            <a href="#">설정</a>
-            <a href="Secondpage.jsp">리스크</a>
+            <a href="MainPage.jsp">홈</a>
+		    <a href="Mypage.jsp">마이페이지</a>
+		    <a href="secondPage.jsp">리스크</a>
         </div>
         <div class="search-bar">
             <input type="text" placeholder="종목명, 종목코드 검색">
@@ -88,7 +94,6 @@
                         <input type="email" id="email" name="EMAIL" value="<%= userEmail %>" class="form-input" readonly>
                     </div>
 
-                    <!-- 알림 수신 설정 추가 -->
                     <div class="notification-preferences">
                         <h3>알림 수신 설정</h3>
                         <label><input type="checkbox" id="emailNotifications"> 이메일 알림</label>
@@ -106,31 +111,31 @@
 
     <script>
         $(document).ready(function() {
-            // 로그인/로그아웃 버튼 클릭 시 동작
             $('.btn-login').click(function() {
                 var isLoggedIn = '<%= isLoggedIn %>' === 'true';
                 if (isLoggedIn) {
-                    window.location.href = '<%= request.getContextPath() %>/auth?action=logout';
+                    $.post('<%= request.getContextPath() %>/auth?action=logout', function() {
+                        alert('로그아웃 되었습니다.');
+                        $('.btn-login').text('로그인');
+                        window.location.reload();
+                    });
                 } else {
                     window.location.href = '<%= request.getContextPath() %>/jsp/Login.jsp';
                 }
             });
 
-            // 이메일 알림 체크 시 알림 표시
             $('#emailNotifications').change(function() {
                 if (this.checked) {
                     alert('이메일 알림이 설정되었습니다.');
                 }
             });
 
-            // SMS 알림 체크 시 알림 표시
             $('#smsNotifications').change(function() {
                 if (this.checked) {
                     alert('SMS 알림이 설정되었습니다.');
                 }
             });
 
-            // 폼 제출 시 변경 사항 확인 후 업데이트 수행
             $('#updateForm').on('submit', function(event) {
                 const originalName = '<%= user != null ? user.getUSER_NAME() : "" %>';
                 const originalPhone = '<%= user != null ? user.getMOBILE() : "" %>';
@@ -141,15 +146,14 @@
                 const currentPassword = $('#password').val();
 
                 if (originalName !== currentName || originalPhone !== currentPhone || originalPassword !== currentPassword) {
-                    return true;  // 변경 사항이 있으면 폼 제출 진행
+                    return true;
                 } else {
                     alert("변경된 내용이 없습니다.");
-                    event.preventDefault();  // 변경 사항 없으면 폼 제출 중단
+                    event.preventDefault();
                 }
             });
         });
 
-        // 프로필 이미지 미리보기 기능
         function previewImage(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
@@ -161,13 +165,11 @@
             reader.readAsDataURL(file);
         }
 
-        // 비밀번호 유효성 검사
         function validatePassword(password) {
             const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
             return passwordRegex.test(password);
         }
 
-        // 폼 제출 시 비밀번호 유효성 검사 및 수정 완료 후 Mypage2.jsp로 이동
         function validateAndSubmit() {
             const password = document.getElementById('password').value;
             
@@ -178,17 +180,15 @@
 
             alert('회원 수정이 완료되었습니다.');
             
-            // 회원 수정 후 Mypage2.jsp로 이동
             setTimeout(function() {
                 window.location.href = '<%= request.getContextPath() %>/jsp/Mypage.jsp';
-            }, 500);  // 0.5초 후 이동
+            }, 500);
             
             return true;
         }
 
-        // 취소 버튼 클릭 시 현재 페이지 새로고침
         function cancelEdit() {
-            location.reload();  // 현재 페이지인 Mypage2.jsp로 머무르게 하기 위해 새로고침
+            location.reload();
         }
     </script>
 </body>

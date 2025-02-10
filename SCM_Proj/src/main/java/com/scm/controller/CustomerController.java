@@ -53,7 +53,7 @@ public class CustomerController extends HttpServlet {
         if (loggedInUser != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", loggedInUser);
-            response.sendRedirect(request.getContextPath() + "/jsp/Mypage2.jsp");
+            response.sendRedirect(request.getContextPath() + "/jsp/MainPage.jsp");
         } else {
             // 로그인 실패 시 리다이렉트로 오류 메시지 전달
             response.sendRedirect(request.getContextPath() + "/jsp/Login.jsp?error=loginFailed");
