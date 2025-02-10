@@ -68,7 +68,7 @@
                     <div class="setting-header">
                         <h3>리스크 알림</h3>
                         <label class="switch">
-                            <input type="checkbox" id="riskAlert" checked>
+                            <input type="checkbox" id="riskAlert">
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -134,6 +134,25 @@
         // 프로필 수정 버튼 클릭 시 Mypage2.jsp로 이동
         $('.btn-edit').click(function() {
             window.location.href = '<%= request.getContextPath() %>/jsp/Mypage2.jsp';
+        });
+        
+        
+        // 리스크 알림 체크 시 알림
+        $('#riskAlert').change(function() {
+            if ($(this).is(':checked')) {
+                alert("리스크 알림이 활성화 되었습니다.");
+            } else {
+                alert("리스크 알림이 비활성화 되었습니다.");
+            }
+        });
+
+        // 가격 변동 알림 체크 시 알림
+        $('#priceAlert').change(function() {
+            if ($(this).is(':checked')) {
+                alert("가격 변동 알림이 활성화 되었습니다.");
+            } else {
+                alert("가격 변동 알림이 비활성화 되었습니다.");
+            }
         });
     });
     </script>
