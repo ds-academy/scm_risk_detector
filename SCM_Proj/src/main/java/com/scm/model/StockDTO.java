@@ -12,6 +12,9 @@
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public class StockDTO {
+		private String companyName;    // COMPANY_NAME -> companyName
+		private double currentClose;   // CURRENT_CLOSE -> currentClose
+		private double percentChange;  // PERCENT_CHANGE -> percentChange
 	    private String COMPANY_CODE; // 회사코드
 	    private Timestamp DATE; // 날짜
 	    private BigDecimal OPEN; // 시가

@@ -5,6 +5,7 @@ import com.scm.model.StockDAO;
 import com.scm.model.StockDTO;
 import org.apache.ibatis.session.SqlSessionFactory;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,35 +51,57 @@ public class StockController extends HttpServlet {
                         response.getWriter().write(gson.toJson(sp500Close));
                         break;
 
-                    case "kospiIndex":  // 📈 코스피 지수 데이터 요청
+                    case "kospiIndex":
                         List<StockDTO> kospiIndexData = stockDAO.getKospiIndex();
                         response.getWriter().write(gson.toJson(kospiIndexData));
                         break;
 
-                    case "kospiVolume":  // 📊 코스피 거래량 데이터 요청
+                    case "kospiVolume":
                         List<StockDTO> kospiVolumeData = stockDAO.getKospiVolume();
                         response.getWriter().write(gson.toJson(kospiVolumeData));
-                        break;    
-                       
+                        break;
+
+                    case "getStockInfo":
+                        if (companyCode != null && !companyCode.isEmpty()) {
+                            StockDTO stockInfo = stockDAO.getStockInfoByCompany(companyCode);
+
+                            // 반환된 객체 확인
+                            System.out.println("쿼리 결과: " + stockInfo);
+
+                            if (stockInfo != null) {
+                                JsonObject jsonResponse = new JsonObject();
+                                jsonResponse.addProperty("COMPANY_NAME", stockInfo.getCompanyName());
+                                jsonResponse.addProperty("CURRENT_CLOSE", stockInfo.getCurrentClose());
+                                jsonResponse.addProperty("PERCENT_CHANGE", stockInfo.getPercentChange());
+
+                                System.out.println("서버 응답 데이터: " + gson.toJson(jsonResponse));  // 서버 응답 데이터 확인
+                                response.getWriter().write(gson.toJson(jsonResponse));
+                            } else {
+                                System.out.println("서버 응답: No stock info available for the company.");  // Null일 때
+                                response.getWriter().write(gson.toJson("No stock info available for the company."));
+                            }
+                        } else {
+                            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "companyCode parameter is required.");
+                        }
+                        break;
+
+
+
                     default:
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action parameter.");
                         System.out.println("Invalid action parameter: " + action);
                 }
-            } 
-            // 📌 companyCode가 있는 경우 주가 데이터 반환
-            else if (companyCode != null && !companyCode.isEmpty()) {
+            } else if (companyCode != null && !companyCode.isEmpty()) {
                 System.out.println("Fetching stock data for company code: " + companyCode);
                 List<StockDTO> stockData = stockDAO.getClosePriceByCompany(companyCode);
-                
+
                 if (stockData.isEmpty()) {
                     response.getWriter().write(gson.toJson("No stock data available."));
                     System.out.println("No stock data found for company code: " + companyCode);
                 } else {
                     response.getWriter().write(gson.toJson(stockData));
                 }
-            } 
-            // 📌 action과 companyCode 둘 다 없을 때 에러 처리
-            else {
+            } else {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action or companyCode parameter required.");
                 System.out.println("Action and companyCode parameters missing.");
             }
@@ -89,5 +112,3 @@ public class StockController extends HttpServlet {
         }
     }
 }
-
-
