@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.scm.model.CustomerDTO" %>
+
+<%
+    // 로그인 상태 확인
+    CustomerDTO user = (CustomerDTO) session.getAttribute("user");
+    boolean isLoggedIn = (user != null);
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -28,15 +36,17 @@
          <i class="fas fa-leaf"></i> MQAndTech
       </div>
       <div class="nav-links">
-         <a href="#">홈</a> 
-         <a href="#">마이페이지</a> 
-         <a href="#">설정</a> 
-         <a href="#">리스크</a>
+         <a href="MainPage.jsp">홈</a>
+		 <a href="Mypage.jsp">마이페이지</a>
+		 <a href="secondPage.jsp">리스크</a>
       </div>
       <div class="search-bar">
          <input type="text" placeholder="종목명, 종목코드 검색">
       </div>
-      <button class="btn-login">로그인</button>
+     <!-- 로그인/로그아웃 버튼 표시 -->
+        <button class="btn-login">
+            <%= isLoggedIn ? "로그아웃" : "로그인" %>
+        </button>
    </nav>
 
    <main class="main-content">

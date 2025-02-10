@@ -39,8 +39,8 @@ public class CustomerController extends HttpServlet {
         String password = request.getParameter("PASSWORD");
 
         if (userId == null || userId.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            request.setAttribute("loginError", "아이디 또는 비밀번호를 입력하세요.");
-            request.getRequestDispatcher("/jsp/Login.jsp").forward(request, response);
+            // 로그인 정보가 부족한 경우 로그인 페이지로 리다이렉트하며 오류 메시지 전달
+            response.sendRedirect(request.getContextPath() + "/jsp/Login.jsp?error=loginFailed");
             return;
         }
 
@@ -53,15 +53,17 @@ public class CustomerController extends HttpServlet {
         if (loggedInUser != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", loggedInUser);
-            response.sendRedirect(request.getContextPath() + "/jsp/MainPage.jsp"); 
+            response.sendRedirect(request.getContextPath() + "/jsp/Mypage2.jsp");
         } else {
-            request.setAttribute("loginError", "로그인 실패: 아이디 또는 비밀번호가 틀립니다.");
-            request.getRequestDispatcher("/jsp/Login.jsp").forward(request, response);
+            // 로그인 실패 시 리다이렉트로 오류 메시지 전달
+            response.sendRedirect(request.getContextPath() + "/jsp/Login.jsp?error=loginFailed");
         }
     }
 
     // 회원가입 처리
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
         String userId = request.getParameter("USER_ID");
         String userName = request.getParameter("USER_NAME");
         String password = request.getParameter("PASSWORD");
@@ -97,7 +99,7 @@ public class CustomerController extends HttpServlet {
             return;
         }
 
-        String userId = loggedInUser.getUSER_ID();
+        String userId = loggedInUser.getUSER_ID();  // 세션에서 현재 로그인한 사용자 ID 가져오기
         String userName = request.getParameter("USER_NAME");
         String password = request.getParameter("PASSWORD");
         String mobile = request.getParameter("MOBILE");
@@ -106,7 +108,7 @@ public class CustomerController extends HttpServlet {
         if (userName == null || userName.trim().isEmpty() || password == null || password.trim().isEmpty() ||
             mobile == null || mobile.trim().isEmpty() || email == null || email.trim().isEmpty()) {
             request.setAttribute("updateError", "모든 필드를 입력하세요.");
-            request.getRequestDispatcher("/jsp/Mypage.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/Mypage2.jsp").forward(request, response);
             return;
         }
 
@@ -114,11 +116,11 @@ public class CustomerController extends HttpServlet {
         boolean isUpdated = customerDAO.updateCustomer(dto);
 
         if (isUpdated) {
-            session.setAttribute("user", dto);
-            response.sendRedirect(request.getContextPath() + "/jsp/Mypage.jsp?success=updated");
+            session.setAttribute("user", dto);  // 세션 업데이트
+            response.sendRedirect(request.getContextPath() + "/jsp/Mypage2.jsp?success=updated");
         } else {
             request.setAttribute("updateError", "업데이트 실패: 다시 시도해주세요.");
-            request.getRequestDispatcher("/jsp/Mypage.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/Mypage2.jsp").forward(request, response);
         }
     }
 

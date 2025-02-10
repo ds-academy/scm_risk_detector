@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.scm.model.StockDAO" %>
+<%@ page import="com.scm.model.CustomerDTO" %>
+<%
+	HttpSession userSession = request.getSession(false);
+	CustomerDTO user = (CustomerDTO) session.getAttribute("user");
+	boolean isLoggedIn = (user != null);
+	
+	  if (user == null) {
+          response.sendRedirect("Login.jsp");
+          return;
+      }
+%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -19,15 +30,17 @@
             <i class="fas fa-leaf"></i> MQAndTech
         </div>
         <div class="nav-links">
-            <a href="Mainpage2.html">홈</a>
-            <a href="Mypage.html">마이페이지</a>
-            <a href="#">설정</a>
-            <a href="SecondPage.html">리스크</a>
+            <a href="MainPage.jsp">홈</a>
+		    <a href="Mypage.jsp">마이페이지</a>
+		    <a href="secondPage.jsp">리스크</a>
         </div>
         <div class="search-bar">
             <input type="text" placeholder="종목명, 종목코드 검색">
         </div>
-        <button class="btn-login">로그인</button>
+        <!-- 로그인/로그아웃 버튼 표시 -->
+        <button class="btn-login">
+            <%= isLoggedIn ? "로그아웃" : "로그인" %>
+        </button>
     </nav>
 
     <main class="main-content">
@@ -91,6 +104,22 @@
             <div id="map" style="height: 500px;"></div>
         </section>
     </main>
+
+	<script>
+	 $(document).ready(function() {
+         $('.btn-login').click(function() {
+             var isLoggedIn = '<%= isLoggedIn %>' === 'true';
+
+             if (isLoggedIn) {
+                 // 로그아웃 처리
+                 window.location.href = '<%= request.getContextPath() %>/auth?action=logout';
+             } else {
+                 // 로그인 페이지로 이동
+                 window.location.href = '<%= request.getContextPath() %>/jsp/Login.jsp';
+             }
+         });
+     });
+	</script>
 
     <script>
     $(document).ready(function() {

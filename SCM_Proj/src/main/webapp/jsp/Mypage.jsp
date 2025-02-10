@@ -1,5 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.scm.model.CustomerDTO" %>
 
+<%
+    // 로그인 상태 확인
+    CustomerDTO user = (CustomerDTO) session.getAttribute("user");
+    boolean isLoggedIn = (user != null);
+
+    // 디버깅 코드 (브라우저에서 확인 가능)
+    if (isLoggedIn) {
+        out.println("DEBUG - USER_NAME: " + user.getUSER_NAME());
+        out.println("DEBUG - EMAIL: " + user.getEMAIL());
+    } else {
+        out.println("DEBUG - 로그인되지 않음.");
+    }
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,6 +22,7 @@
     <title>MQAndTech - 마이페이지</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/Mypage.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -15,15 +30,18 @@
             <i class="fas fa-leaf"></i> MQAndTech
         </div>
         <div class="nav-links">
-            <a href="#">홈</a>
-            <a href="#" class="active">마이페이지</a>
-            <a href="#">설정</a>
-            <a href="#">리스크</a>
+            <a href="MainPage.jsp">홈</a>
+		    <a href="Mypage.jsp">마이페이지</a>
+		    <a href="secondPage.jsp">리스크</a>
         </div>
         <div class="search-bar">
             <input type="text" placeholder="종목명, 종목코드 검색">
         </div>
-        <button class="btn-login">로그아웃</button>
+        
+         <!-- 로그인/로그아웃 버튼 표시 -->
+        <button class="btn-login">
+            <%= isLoggedIn ? "로그아웃" : "로그인" %>
+        </button>
     </nav>
 
     <main class="main-content">
@@ -34,10 +52,11 @@
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="profile-details">
-                        <h2>홍길동 님</h2>
-                        <p>hong@example.com</p>
+                        <h2><%= isLoggedIn && user.getUSER_NAME() != null ? user.getUSER_NAME() + " 님" : "홍길동 님" %></h2>
+                        <p><%= isLoggedIn && user.getEMAIL() != null ? user.getEMAIL() : "hong@example.com" %></p>
                     </div>
                 </div>
+                <!-- 프로필 수정 버튼 클릭 시 Mypage2.jsp로 이동 -->
                 <button class="btn-edit">프로필 수정</button>
             </div>
         </section>
@@ -96,5 +115,27 @@
             </div>
         </section>
     </main>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+        // 로그인/로그아웃 버튼 클릭 시 처리
+        $('.btn-login').click(function() {
+            var isLoggedIn = '<%= isLoggedIn %>' === 'true';
+
+            if (isLoggedIn) {
+                // 로그아웃 처리: 세션 무효화 및 로그인 페이지로 이동
+                window.location.href = '<%= request.getContextPath() %>/auth?action=logout';
+            } else {
+                // 로그인 페이지로 이동
+                window.location.href = '<%= request.getContextPath() %>/jsp/Login.jsp';
+            }
+        });
+
+        // 프로필 수정 버튼 클릭 시 Mypage2.jsp로 이동
+        $('.btn-edit').click(function() {
+            window.location.href = '<%= request.getContextPath() %>/jsp/Mypage2.jsp';
+        });
+    });
+    </script>
 </body>
 </html>

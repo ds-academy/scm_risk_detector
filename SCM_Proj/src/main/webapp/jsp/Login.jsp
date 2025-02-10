@@ -7,12 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MQAndTech - 로그인/회원가입</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/Login.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Login.css"> <!-- 경로 수정 -->
 </head>
 <body>
     <nav class="navbar">
-    	
-        <a href="../jsp/MainPage.jsp" class="logo">
+        <a href="<%= request.getContextPath() %>/jsp/MainPage.jsp" class="logo">
             <i class="fas fa-leaf"></i> MQAndTech
         </a>
     </nav>
@@ -29,7 +28,7 @@
                 <div class="auth-tab" onclick="switchTab('signup')">회원가입</div>
             </div>
 
-            <%-- 로그인 폼 --%>
+            <!-- 로그인 폼 -->
             <form id="loginForm" class="auth-form" action="${pageContext.request.contextPath}/auth" method="post">
                 <input type="hidden" name="action" value="login">
                 <div class="form-group">
@@ -41,7 +40,7 @@
                     <input type="password" id="LOGIN_PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
 
-                <%-- 버튼 크기 유지 (Login.html 스타일 적용) --%>
+                <!-- 로그인 버튼 스타일 유지 -->
                 <button type="submit" class="submit-btn" style="width: 100%; height: 50px; font-size: 1.1rem; padding: 12px; display: flex; align-items: center; justify-content: center;">
                     로그인
                 </button>
@@ -51,7 +50,7 @@
                 </div>
             </form>
 
-            <%-- 회원가입 폼 --%>
+            <!-- 회원가입 폼 -->
             <form id="signupForm" class="auth-form" action="${pageContext.request.contextPath}/auth" method="post" style="display: none;">
                 <input type="hidden" name="action" value="register">
                 <div class="form-group">
@@ -75,7 +74,7 @@
                     <input type="password" id="REGISTER_PASSWORD" name="PASSWORD" placeholder="비밀번호를 입력하세요" required>
                 </div>
 
-                <%-- 버튼 크기 유지 (Login.html 스타일 적용) --%>
+                <!-- 회원가입 버튼 스타일 유지 -->
                 <button type="submit" class="submit-btn" style="width: 100%; height: 50px; font-size: 1.1rem; padding: 12px; display: flex; align-items: center; justify-content: center;">
                     회원가입
                 </button>
@@ -106,15 +105,22 @@
             }
         }
 
-        // 회원가입 성공 시 alert 띄우고 로그인 탭으로 이동
+        // 회원가입 성공 및 로그인 실패 알림 처리
         document.addEventListener("DOMContentLoaded", function () {
             const params = new URLSearchParams(window.location.search);
+
+            // 회원가입 성공 시
             if (params.get("success") === "registered") {
                 alert("회원가입에 성공했습니다.");
-                switchTab('login');
+                switchTab('login');  // 로그인 탭으로 자동 전환
+            }
+
+            // 로그인 실패 시
+            if (params.get("error") === "loginFailed") {
+                alert("로그인에 실패했습니다. 아이디 또는 비밀번호를 확인하세요.");
+                switchTab('login');  // 로그인 탭 유지
             }
         });
     </script>
-
 </body>
 </html>
