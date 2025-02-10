@@ -31,7 +31,9 @@ if (user == null) {
 <body>
 	<nav class="navbar">
 		<div class="logo">
-			<i class="fas fa-leaf"></i> MQAndTech
+			<a href="MainPage.jsp" style="text-decoration: none; color : inherit;">
+				<i class="fas fa-leaf"></i> MQAndTech
+			</a>
 		</div>
 		<div class="nav-links">
 			<a href="MainPage.jsp">홈</a> <a href="Mypage.jsp">마이페이지</a> <a
