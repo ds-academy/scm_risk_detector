@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.scm.model.CustomerDTO" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.scm.model.CustomerDTO"%>
 
 <%
-    // 로그인 상태 확인
-    CustomerDTO user = (CustomerDTO) session.getAttribute("user");
-    boolean isLoggedIn = (user != null);
+// 로그인 상태 확인
+CustomerDTO user = (CustomerDTO) session.getAttribute("user");
+boolean isLoggedIn = (user != null);
 %>
 
 <!DOCTYPE html>
@@ -14,106 +15,108 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MQAndTech</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="../css/SecondPage.css">
 <style type="text/css">
 .risk-score {
-    font-size: 20px;
-    font-weight: 600;
-    background-color: rgba(255, 59, 48, 0.08);  /* 빨간색 배경 */
-    color: #FF3B30;  /* 빨간색 글씨 */
-    padding: 8px 16px;
-    border-radius: 8px;
-    margin-left: 16px;
-    transition: all 0.2s ease;
+	font-size: 20px;
+	font-weight: 600;
+	background-color: rgba(255, 59, 48, 0.08); /* 빨간색 배경 */
+	color: #FF3B30; /* 빨간색 글씨 */
+	padding: 8px 16px;
+	border-radius: 8px;
+	margin-left: 16px;
+	transition: all 0.2s ease;
 }
 </style>
 </head>
 <body>
-   <nav class="navbar">
-      <div class="logo">
-         <i class="fas fa-leaf"></i> MQAndTech
-      </div>
-      <div class="nav-links">
-         <a href="MainPage.jsp">홈</a>
-		 <a href="Mypage.jsp">마이페이지</a>
-		 <a href="secondPage.jsp">리스크</a>
-      </div>
-      <div class="search-bar">
-         <input type="text" placeholder="종목명, 종목코드 검색">
-      </div>
-     <!-- 로그인/로그아웃 버튼 표시 -->
-        <button class="btn-login">
-            <%= isLoggedIn ? "로그아웃" : "로그인" %>
-        </button>
-   </nav>
+	<nav class="navbar">
+		<div class="logo">
+			<a href="MainPage.jsp" style="text-decoration: none; color: inherit;">
+				<i class="fas fa-leaf"></i> MQAndTech
+			</a>
+		</div>
+		<div class="nav-links">
+			<a href="MainPage.jsp">홈</a> <a href="Mypage.jsp">마이페이지</a> <a
+				href="secondPage.jsp">리스크</a>
+		</div>
+		<div class="search-bar">
+			<input type="text" placeholder="종목명, 종목코드 검색">
+		</div>
+		<!-- 로그인/로그아웃 버튼 표시 -->
+		<button class="btn-login">
+			<%=isLoggedIn ? "로그아웃" : "로그인"%>
+		</button>
+	</nav>
 
-   <main class="main-content">
-      <section class="sentiment-news">
-         <div class="news-header">
-            <div class="news-icon positive">
-               <i class="fas fa-arrow-up"></i>
-            </div>
-            <h2 class="section-title">긍정 뉴스</h2>
-         </div>
-         <div id="positive-news">
-            <!-- 뉴스 항목들이 여기에 추가됨 -->
-         </div>
-      </section>
+	<main class="main-content">
+		<section class="sentiment-news">
+			<div class="news-header">
+				<div class="news-icon positive">
+					<i class="fas fa-arrow-up"></i>
+				</div>
+				<h2 class="section-title">긍정 뉴스</h2>
+			</div>
+			<div id="positive-news">
+				<!-- 뉴스 항목들이 여기에 추가됨 -->
+			</div>
+		</section>
 
-      <section class="sentiment-news">
-         <div class="news-header">
-            <div class="news-icon negative">
-               <i class="fas fa-arrow-down"></i>
-            </div>
-            <h2 class="section-title">부정 뉴스</h2>
-         </div>
-         <div id="negative-news">
-            <!-- 뉴스 항목들이 여기에 추가됨 -->
-         </div>
-      </section>
+		<section class="sentiment-news">
+			<div class="news-header">
+				<div class="news-icon negative">
+					<i class="fas fa-arrow-down"></i>
+				</div>
+				<h2 class="section-title">부정 뉴스</h2>
+			</div>
+			<div id="negative-news">
+				<!-- 뉴스 항목들이 여기에 추가됨 -->
+			</div>
+		</section>
 
-      <section class="chart-section">
-         <div class="stock-info">
-            <select id="stockSelector" class="stock-selector">
-               <option value="004370">농심 (004370)</option>
-               <option value="005380">현대자동차 (005380)</option>
-               <option value="005930">삼성전자 (005930)</option>
-               <option value="034220">LG디스플레이 (034220)</option>
-               <option value="051900">LG생활과학(051900)</option>
-               <option value="051910">LG화학 (051910)</option>
-               <option value="073240">금호타이어 (073240)</option>
-               <option value="267260">HD현대일렉트릭 (267260)</option>
-            </select>
-            <div class="stock-price">72,300원</div>
-         </div>
-         <div class="chart-wrapper">
-            <canvas id="stockChart"></canvas>
-         </div>
-      </section>
-      <section class="risk-section">
-         <div class="stock-info">
-            <select id="riskSelector" class="stock-selector">
-               <option value="004370">농심 (004370)</option>
-               <option value="005380">현대자동차 (005380)</option>
-               <option value="005930">삼성전자 (005930)</option>
-               <option value="034220">LG디스플레이 (034220)</option>
-               <option value="051900">LG생활과학(051900)</option>
-               <option value="051910">LG화학 (051910)</option>
-               <option value="073240">금호타이어 (073240)</option>
-               <option value="267260">HD현대일렉트릭 (267260)</option>
-            </select>
-            <div class="risk-score">위험도: 65%</div>
-         </div>
-         <div class="chart-wrapper">
-            <canvas id="riskChart"></canvas>
-         </div>
-      </section>
-   </main>
+		<section class="chart-section">
+			<div class="stock-info">
+				<select id="stockSelector" class="stock-selector">
+					<option value="004370">농심 (004370)</option>
+					<option value="005380">현대자동차 (005380)</option>
+					<option value="005930">삼성전자 (005930)</option>
+					<option value="034220">LG디스플레이 (034220)</option>
+					<option value="051900">LG생활과학(051900)</option>
+					<option value="051910">LG화학 (051910)</option>
+					<option value="073240">금호타이어 (073240)</option>
+					<option value="267260">HD현대일렉트릭 (267260)</option>
+				</select>
+				<div class="stock-price">72,300원</div>
+			</div>
+			<div class="chart-wrapper">
+				<canvas id="stockChart"></canvas>
+			</div>
+		</section>
+		<section class="risk-section">
+			<div class="stock-info">
+				<select id="riskSelector" class="stock-selector">
+					<option value="004370">농심 (004370)</option>
+					<option value="005380">현대자동차 (005380)</option>
+					<option value="005930">삼성전자 (005930)</option>
+					<option value="034220">LG디스플레이 (034220)</option>
+					<option value="051900">LG생활과학(051900)</option>
+					<option value="051910">LG화학 (051910)</option>
+					<option value="073240">금호타이어 (073240)</option>
+					<option value="267260">HD현대일렉트릭 (267260)</option>
+				</select>
+				<div class="risk-score">위험도: 65%</div>
+			</div>
+			<div class="chart-wrapper">
+				<canvas id="riskChart"></canvas>
+			</div>
+		</section>
+	</main>
 
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
     let stockChart = null;
     let riskChart = null;
 
@@ -218,7 +221,7 @@
     }
     </script>
 
-   <script>
+	<script>
         var page = 0;
         var limit = 3;
         var allPositiveNews = [];
