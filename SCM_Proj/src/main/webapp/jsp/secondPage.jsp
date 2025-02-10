@@ -165,7 +165,7 @@
 
                 const stockPriceElement = document.querySelector('.chart-section .stock-price');
                 if (stockPriceElement) {
-                    stockPriceElement.textContent = `평균 주가: ${averagePrice.toLocaleString()}원`;
+                    stockPriceElement.textContent = "평균 주가: "+averagePrice+"원";
                 }
             },
             error: function(xhr, status, error) {
@@ -208,7 +208,7 @@
 
                 const riskScoreElement = document.querySelector('.risk-section .risk-score');
                 if (riskScoreElement) {
-                    riskScoreElement.textContent = `평균 위험도: ${averageRisk}%`;
+                    riskScoreElement.textContent =  "평균 위험도: "+averageRisk+"%" ;
                 }
             },
             error: function(xhr, status, error) {
