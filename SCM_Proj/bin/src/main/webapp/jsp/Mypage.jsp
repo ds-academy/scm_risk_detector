@@ -180,8 +180,6 @@
     const currentPrice = stockData.CURRENT_CLOSE ? stockData.CURRENT_CLOSE.toLocaleString() : "0";
     const percentChange = stockData.PERCENT_CHANGE || 0;
 
-   // console.log(companyName + currentPrice + percentChange)
-    
     // Determine the class for price change (positive or negative)
     const changeClass = percentChange >= 0 ? 'positive' : 'negative';
     const riskLevel = Math.abs(percentChange) > 5 ? '고위험' : '저위험';
@@ -191,14 +189,14 @@
      const stockCardHtml = `
         <div class="stock-card">
             <div class="stock-header">
-                <span class="stock-name">`+companyName+`</span>
+                <span class="stock-name">${companyName}</span>
                 <button class="btn-remove"><i class="fas fa-times"></i></button>
             </div>
-            <div class="stock-price">`+currentPrice+` 원</div>
+            <div class="stock-price">${currentPrice} 원</div>
             <div class="stock-change ${changeClass}">
-                ${percentChange >= 0 ? '+' : ''}`+ percentChange+`%
+                ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(2)}%
             </div>
-            <div class="risk-level ${riskClass}">`+ riskLevel +`</div>
+            <div class="risk-level ${riskClass}">${riskLevel}</div>
         </div>`;
 
     // Clear the container before inserting new content
